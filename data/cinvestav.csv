@@ -1,106 +1,99 @@
-student_name,profile_id,degree,start,end,position,advisor_name,advisor_id
-"Higuita Borja, Daniel Fernando",1318752,MASTER,2010,2012,"Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
-"Mendez Zavaleta, Julio Alberto",1380842,MASTER,2010,2012,"Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
-"Juárez-Aubry, María Montserrat",1762125,PHD,,2014,Arkansas State U.,"Ayón-Beato, Eloy",1017802
-"Mendez Zavaleta, Julio Alberto",1380842,PHD,2012,2016,"Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
-"Higuita Borja, Daniel Fernando",1318752,PHD,2013,2018,"Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
-"Garcia-Salcedo, Ricardo",1056392,PHD,1998,2003,"CINVESTAV, IPN","Breton, Nora",1015335
-"Page, Dany P.",994523,MASTER,,1984,"UNAM, Mexico","Brown, Gerald Edward",1015185
-"Mendez, Hector",997818,PHD,,1990,"CINVESTAV, IPN","Butler, Joel N.",1014855
-"Cordero, Ruben",1013045,PHD,1991,1999,Mexico U.,"Capovilla, Riccardo",1014558
-"Sanchez-Hernandez, Alberto",990458,PHD,1992,1997,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Hernandez-Montoya, Alejandro Raul",1019584,PHD,,1997,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Gonzalez-Solis, Jose Luis",1021766,PHD,,1997,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Magana-Mendoza, Leonel",1021765,PHD,,1997,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"De La Cruz Burelo, Eduard",1030771,MASTER,1999,2001,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"De La Cruz Burelo, Eduard",1030771,PHD,2001,2005,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Heredia de la Cruz, Ivan",1054564,MASTER,2006,2008,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Hernandez Orduna, Jose de Jesus",1054952,PHD,2003,2011,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Heredia de la Cruz, Ivan",1054564,PHD,2008,2012,"CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
-"Flores-Tlalpa, A.",1039547,PHD,,2008,"CINVESTAV, IPN","Castro, Gabriel Lopez",
-"Villasenor Cendejas, Luis Manuel",1021497,PHD,1981,1988,"IFM-UMSNH, Michoacan","Cline, David B.",982258
-"Cotti, Umberto",1012944,PHD,,1996,"IFM-UMSNH, Michoacan","Cline, David B.",982258
-"Arteaga-Velazquez, Juan Carlos",1021800,PHD,,2005,"CINVESTAV, IPN","Cline, David B.",982258
-"Pelayo, Rodrigo",1035799,PHD,,2008,"CINVESTAV, IPN","Cline, David B.",982258
-"Camacho-Perez, Enrique",993787,MASTER,2005,2007,"CINVESTAV, IPN","De La Cruz Burelo, Eduard",1030771
-"Garcia Gonzalez, Jose Andres",1068165,MASTER,2008,2010,Mexico U.,"De La Cruz Burelo, Eduard",1030771
-"Hernandez Orduna, Jose de Jesus",1054952,PHD,2003,2011,"CINVESTAV, IPN","De La Cruz Burelo, Eduard",1030771
-"Camacho-Perez, Enrique",993787,PHD,2008,2011,"CINVESTAV, IPN","De La Cruz Burelo, Eduard",1030771
-"Garcia Gonzalez, Jose Andres",1068165,PHD,2010,2015,Mexico U.,"De La Cruz Burelo, Eduard",1030771
-"Rosas-Ortiz, Oscar",991268,MASTER,1992,1995,"CINVESTAV, IPN","Fernandez C, David J.",1010144
-"Rosas-Ortiz, Oscar",991268,PHD,1995,1997,"CINVESTAV, IPN","Fernandez C, David J.",1010144
-"Bermudez, David",1078473,PHD,2008,2013,"CINVESTAV, IPN","Fernandez C, David J.",1010144
-"Ayón-Beato, Eloy",1017802,PHD,1998,2000,"Havana, ICIMAF","Garcia Diaz, Alberto A.",1008895
-"Terrero-Escalante, Cesar A.",986312,PHD,1998,2001,Colima U.,"Garcia Diaz, Alberto A.",1008895
-"Morelos Pineda, Antonio",1021813,PHD,,1992,"CINVESTAV, IPN","Garcia, Augusto",1008892
-"Maya-Mendieta, Mario",998195,PHD,,1994,Mexico U.,"Garcia, Augusto",1008892
-"Loaiza-Brito, Oscar",1020983,PHD,1997,2002,"CINVESTAV, IPN","Garcia-Compean, Hugo",1008900
-"Ramírez Valdez, Carlos Jonathan",1915267,PHD,,,"CINVESTAV, IPN","Garcia-Compean, Hugo",1008900
-"Bernal, Argelia",1054249,PHD,,2007,Guanajuato U.,"Guzman, Francisco Siddhartha",1007136
-"Martinez Hernandez, Mario Ivan",998585,MASTER,1996,2000,Mexico U.,"Herrera-Corral, Gerardo",1006138
-"Martinez Hernandez, Mario Ivan",998585,PHD,2000,2002,Mexico U.,"Herrera-Corral, Gerardo",1006138
-"Cruz Albino, Rigoberto",1249489,PHD,,2016,"CINVESTAV, IPN","Herrera-Corral, Gerardo",1006138
-"Felix, Jose Antonio Alcantara",1022263,MASTER,1985,1986,"Guanajuato U., FIMEE","Kreisler, Michael N.",1001850
-"Morelos Pineda, Antonio",1021813,PHD,,1992,"CINVESTAV, IPN","Lach, Joseph T.",1001326
-"Toledo Sanchez, Genaro",1034876,MASTER,1994,1996,"CINVESTAV, IPN","Lopez Castro, Gabriel",
-"Toledo Sanchez, Genaro",1034876,PHD,1996,1999,"CINVESTAV, IPN","Lopez Castro, Gabriel",
-"Ramírez Valdez, Carlos Jonathan",1915267,PHD,,,"CINVESTAV, IPN","Manko, Vladimir S.",998961
-"Napsuciale, Mauro",996077,PHD,,1995,Guanajuato U.,"Martinez, Jose Luis Lucio",
-"Guzman, Francisco Siddhartha",1007136,PHD,,2000,"Unlisted, CU","Matos, Tonatiuh",998375
-"Urena-Lopez, L.Arturo",985188,PHD,1997,2001,Guanajuato U.,"Matos, Tonatiuh",998375
-"García Aspeitia, Miguel Ángel",1078291,PHD,2008,2011,"Conacyt, Mexico","Matos, Tonatiuh",998375
-"Padilla Albores, Luis Enrique",1774079,PHD,2014,2020,"Mexico U., ICN","Matos, Tonatiuh",998375
-"Fernandez C, David J.",1010144,PHD,1984,1988,"CINVESTAV, IPN","Mielnik, Bogdan",1055726
-"Barranco, Juan",1041799,PHD,2000,2006,CERN,"Miranda, Omar G.",997309
-"Barranco Monarca, Juan",1271820,PHD,,2006,Guanajuato U.,"Miranda, Omar G.",997309
-"Garcés, Estela A.",1054546,PHD,2008,2012,"UNAM, Mexico","Miranda, Omar G.",997309
-"Parada Valencia, Alexander",1384628,PHD,2008,2014,Santiago de Cali U.,"Miranda, Omar G.",997309
-"Ayala-Torres, Marco Alberto",1768621,MASTER,2015,2017,"CINVESTAV, IPN","Montano Zetina, Luis Manuel",1066312
-"Ayala-Torres, Marco Alberto",1768621,PHD,2018,2022,"CINVESTAV, IPN","Montano Zetina, Luis Manuel",1066312
-"Velazquez, Mercedes Paulina",1059475,PHD,,2011,"CINVESTAV, IPN","Montesinos-Velasquez, Merced",996953
-"Gallardo, Alejandro",1077558,PHD,,2011,"CINVESTAV, IPN","Montesinos-Velasquez, Merced",996953
-"Celada, Mariano",1198359,PHD,,2016,"Mexico City U., Iztapalapa","Montesinos-Velasquez, Merced",996953
-"Huet Hernandez, Idrish",1051979,PHD,,2008,Chiapas Autonoma U.,"O'Connor, Denjoe",995294
-"Delgadillo-Blando, Rodrigo",1054031,PHD,,2008,"CINVESTAV, IPN","O'Connor, Denjoe",995294
-"Fernández Téllez, Arturo",1010138,PHD,,1991,"Puebla U., Mexico","Perez-Angon, Miguel A.",1055658
-"Martinez, Roberto Enrique",998583,PHD,1987,1989,"Colombia, U. Natl.","Perez-Angon, Miguel Angel",993776
-"Tavares-Velasco,Gilberto",986490,PHD,1995,2001,"Santa Cruz U., DCET","Perez-Angon, Miguel Angel",993776
-"García-Compeán, Hugo",1008900,PHD,,1994,"CINVESTAV, IPN","Plebansky, Jerzy",1062324
-"García-Aguilar, J.D.",1317837,MASTER,2007,2009,"IPN, Mexico","Pérez-Lorenzana, Abdel",1025146
-"Hernández Pinto, Roger Jose",1060821,PHD,2008,2012,Sinaloa U.,"Pérez-Lorenzana, Abdel",1025146
-"García-Aguilar, J.D.",1317837,PHD,2010,2017,"IPN, Mexico","Pérez-Lorenzana, Abdel",1025146
-"Venzor, Jorge",1794683,PHD,2014,2021,"CINVESTAV, IPN","Pérez-Lorenzana, Abdel",
-"Miranda Hernández, Jesús Alejandro",1827003,MASTER,2016,2018,"CINVESTAV, IPN","Roig Garces, Pablo",1049577
-"Miranda Hernández, Jesús Alejandro",1827003,PHD,2018,2022,"CINVESTAV, IPN","Roig Garces, Pablo",1049577
-"Carrillo Moreno, Salvador",1064133,PHD,,2003,Iberoamericana U.,"Sanchez-Hernandez, Alberto",990458
-"Podesta Lerma, Pedro Luis Manuel",1023554,PHD,2001,2005,"CINVESTAV, IPN","Sanchez-Hernandez, Alberto",990458
-"Vazquez-Valencia, Elsa Fabiola",1050139,PHD,2005,,"CINVESTAV, IPN","Sanchez-Hernandez, Alberto",990458
-"Ramírez-Zavaleta, Fernando Iguazú",1041968,PHD,,2007,"IFM-UMSNH, Michoacan","Tavares Velasco, Gilberto",986490
-"Chavez Barajas, Carlos Alberto",1072910,MASTER,2000,2002,Asuncion Natl. U.,"Touramanis, Christos",985787
-"Vazquez-Bello, Jose-Luis",984890,MASTER,1985,1988,"Rio de Janeiro, CBPF",Unkown,
-"Cuautle, Eleazar F.",1012729,PHD,,1999,"CINVESTAV, IPN",Unkown,
-"Segovia, Carlos",1653895,PHD,2007,2011,"UNAM, Mexico",Unkown,
-"Martínez Huerta, Humberto",1073828,MASTER,2010,2012,"Andes U., Merida",Unkown,
-"Cañas, Blanca Cecilia",1511976,MASTER,2010,2012,Pamplona U.,Unkown,
-"Tostado, Sergio L.",1492460,MASTER,2010,2012,"Valle U., Cali",Unkown,
-"Guevara, Adolfo",1508969,MASTER,2010,2012,"CINVESTAV, IPN",Unkown,
-"Morales Salgado, Vicente Said",2036586,MASTER,2010,2012,"CINVESTAV, IPN",Unkown,
-"Rabadán Trejo, Raúl Iraq",1277582,MASTER,2011,2013,"CINVESTAV, IPN",Unkown,
-"Quintero, Nestor",1444460,PHD,,2014,Andres Bello Natl. U.,Unkown,
-"Cañas, Blanca Cecilia",1511976,PHD,2012,2016,Pamplona U.,Unkown,
-"Morales Salgado, Vicente Said",2036586,PHD,2012,2016,"CINVESTAV, IPN",Unkown,
-"Martínez Huerta, Humberto",1073828,PHD,2012,2017,"Andes U., Merida",Unkown,
-"Tostado, Sergio L.",1492460,PHD,2013,2017,"Valle U., Cali",Unkown,
-"Guevara, Adolfo",1508969,PHD,2013,2017,"CINVESTAV, IPN",Unkown,
-"Sanchez Garcia, Gonzalo",1954660,MASTER,2016,2018,"CINVESTAV, IPN",Unkown,
-"Rabadán Trejo, Raúl Iraq",1277582,PHD,2014,2019,"CINVESTAV, IPN",Unkown,
-"Flores Sandoval, Luis Jorge",1809577,PHD,2014,2019,"Unlisted, MX",Unkown,
-"Chacón, Erick",1694392,PHD,2015,2019,"Mexico, ESFM",Unkown,
-"Sanchez Garcia, Gonzalo",1954660,PHD,2018,,"CINVESTAV, IPN",Unkown,
-"Contreras-Astorga, Alonso",1072712,PHD,2013,,"CINVESTAV, IPN",Unkown,
-"Moreno, Gerardo",1021586,PHD,,,Centro Atomico Bariloche,Unkown,
-"Martinez-Castro, Jesus",1065485,PHD,,,"CIC, IPN",Unkown,
-"Amador Ceron, Eduardo Xavier",1069816,PHD,,,"CINVESTAV, IPN",Unkown,
-"Amador Ceron, Eduardo Xavier",1069816,UNDERGRADUATE,,,"CINVESTAV, IPN",Unkown,
-"Padilla Albores, Luis Enrique",1774079,PHD,2014,2020,"Mexico U., ICN","Vazquez, José Alberto",1061596
-"Villasenor Cendejas, Luis Manuel",1021497,PHD,1981,1988,"IFM-UMSNH, Michoacan","Zepeda, Arnulfo",1013360
+student_name,profile_id,degree,start,end,position,position,advisor_name,advisor_id
+"Higuita Borja, Daniel Fernando",1318752,MASTER,2010,2012,"Chile Austral U., Valdivia","Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
+"Juárez-Aubry, María Montserrat",1762125,PHD,,2014,Arkansas State U.,Arkansas State U.,"Ayón-Beato, Eloy",1017802
+"Mendez Zavaleta, Julio Alberto",1380842,PHD,2012,2016,"Chile Austral U., Valdivia","Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
+"Higuita Borja, Daniel Fernando",1318752,PHD,2013,2018,"Chile Austral U., Valdivia","Chile Austral U., Valdivia","Ayón-Beato, Eloy",1017802
+"Garcia-Salcedo, Ricardo",1056392,PHD,1998,2003,"CINVESTAV, IPN","CINVESTAV, IPN","Breton, Nora",1015335
+"Page, Dany P.",994523,MASTER,,1984,"UNAM, Mexico","UNAM, Mexico","Brown, Gerald Edward",1015185
+"Mendez, Hector",997818,PHD,,1990,"CINVESTAV, IPN","CINVESTAV, IPN","Butler, Joel N.",1014855
+"Cordero, Ruben",1013045,PHD,1991,1999,Mexico U.,Mexico U.,"Capovilla, Riccardo",1014558
+"Sanchez-Hernandez, Alberto",990458,PHD,1992,1997,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"Hernandez-Montoya, Alejandro Raul",1019584,PHD,,1997,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"Gonzalez-Solis, Jose Luis",1021766,PHD,,1997,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"Magana-Mendoza, Leonel",1021765,PHD,,1997,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"De La Cruz Burelo, Eduard",1030771,MASTER,1999,2001,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"De La Cruz Burelo, Eduard",1030771,PHD,2001,2005,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"Hernandez Orduna, Jose de Jesus",1054952,PHD,2003,2011,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"Heredia de la Cruz, Ivan",1054564,PHD,2008,2012,"CINVESTAV, IPN","CINVESTAV, IPN","Castilla-Valdez, Heriberto",1014298
+"Flores-Tlalpa, A.",1039547,PHD,,2008,"CINVESTAV, IPN","CINVESTAV, IPN","Castro, Gabriel Lopez",
+"Villasenor Cendejas, Luis Manuel",1021497,PHD,1981,1988,"IFM-UMSNH, Michoacan","IFM-UMSNH, Michoacan","Cline, David B.",982258
+"Cotti, Umberto",1012944,PHD,,1996,"IFM-UMSNH, Michoacan","IFM-UMSNH, Michoacan","Cline, David B.",982258
+"Arteaga-Velazquez, Juan Carlos",1021800,PHD,,2005,"CINVESTAV, IPN","CINVESTAV, IPN","Cline, David B.",982258
+"Pelayo, Rodrigo",1035799,PHD,,2008,"CINVESTAV, IPN","CINVESTAV, IPN","Cline, David B.",982258
+"Garcia Gonzalez, Jose Andres",1068165,MASTER,2008,2010,Mexico U.,Mexico U.,"De La Cruz Burelo, Eduard",1030771
+"Hernandez Orduna, Jose de Jesus",1054952,PHD,2003,2011,"CINVESTAV, IPN","CINVESTAV, IPN","De La Cruz Burelo, Eduard",1030771
+"Camacho-Perez, Enrique",993787,PHD,2008,2011,"CINVESTAV, IPN","CINVESTAV, IPN","De La Cruz Burelo, Eduard",1030771
+"Garcia Gonzalez, Jose Andres",1068165,PHD,2010,2015,Mexico U.,Mexico U.,"De La Cruz Burelo, Eduard",1030771
+"Rosas-Ortiz, Oscar",991268,MASTER,1992,1995,"CINVESTAV, IPN","CINVESTAV, IPN","Fernandez C, David J.",1010144
+"Rosas-Ortiz, Oscar",991268,PHD,1995,1997,"CINVESTAV, IPN","CINVESTAV, IPN","Fernandez C, David J.",1010144
+"Bermudez, David",1078473,PHD,2008,2013,"CINVESTAV, IPN","CINVESTAV, IPN","Fernandez C, David J.",1010144
+"Ayón-Beato, Eloy",1017802,PHD,1998,2000,"Havana, ICIMAF","Havana, ICIMAF","Garcia Diaz, Alberto A.",1008895
+"Terrero-Escalante, Cesar A.",986312,PHD,1998,2001,Colima U.,Colima U.,"Garcia Diaz, Alberto A.",1008895
+"Morelos Pineda, Antonio",1021813,PHD,,1992,"CINVESTAV, IPN","CINVESTAV, IPN","Garcia, Augusto",1008892
+"Maya-Mendieta, Mario",998195,PHD,,1994,Mexico U.,Mexico U.,"Garcia, Augusto",1008892
+"Loaiza-Brito, Oscar",1020983,PHD,1997,2002,"CINVESTAV, IPN","CINVESTAV, IPN","Garcia-Compean, Hugo",1008900
+"Ramírez Valdez, Carlos Jonathan",1915267,PHD,,,"CINVESTAV, IPN","CINVESTAV, IPN","Garcia-Compean, Hugo",1008900
+"Bernal, Argelia",1054249,PHD,,2007,Guanajuato U.,Guanajuato U.,"Guzman, Francisco Siddhartha",1007136
+"Martinez Hernandez, Mario Ivan",998585,MASTER,1996,2000,Mexico U.,Mexico U.,"Herrera-Corral, Gerardo",1006138
+"Martinez Hernandez, Mario Ivan",998585,PHD,2000,2002,Mexico U.,Mexico U.,"Herrera-Corral, Gerardo",1006138
+"Cruz Albino, Rigoberto",1249489,PHD,,2016,"CINVESTAV, IPN","CINVESTAV, IPN","Herrera-Corral, Gerardo",1006138
+"Morelos Pineda, Antonio",1021813,PHD,,1992,"CINVESTAV, IPN","CINVESTAV, IPN","Lach, Joseph T.",1001326
+"Toledo Sanchez, Genaro",1034876,MASTER,1994,1996,"CINVESTAV, IPN","CINVESTAV, IPN","Lopez Castro, Gabriel",
+"Toledo Sanchez, Genaro",1034876,PHD,1996,1999,"CINVESTAV, IPN","CINVESTAV, IPN","Lopez Castro, Gabriel",
+"Ramírez Valdez, Carlos Jonathan",1915267,PHD,,,"CINVESTAV, IPN","CINVESTAV, IPN","Manko, Vladimir S.",998961
+"Napsuciale, Mauro",996077,PHD,,1995,Guanajuato U.,Guanajuato U.,"Martinez, Jose Luis Lucio",
+"Guzman, Francisco Siddhartha",1007136,PHD,,2000,"Unlisted, CU","Unlisted, CU","Matos, Tonatiuh",998375
+"Urena-Lopez, L.Arturo",985188,PHD,1997,2001,Guanajuato U.,Guanajuato U.,"Matos, Tonatiuh",998375
+"García Aspeitia, Miguel Ángel",1078291,PHD,2008,2011,"Conacyt, Mexico","Conacyt, Mexico","Matos, Tonatiuh",998375
+"Padilla Albores, Luis Enrique",1774079,PHD,2014,2020,"Mexico U., ICN","Mexico U., ICN","Matos, Tonatiuh",998375
+"Fernandez C, David J.",1010144,PHD,1984,1988,"CINVESTAV, IPN","CINVESTAV, IPN","Mielnik, Bogdan",1055726
+"Barranco, Juan",1041799,PHD,2000,2006,CERN,CERN,"Miranda, Omar G.",997309
+"Barranco Monarca, Juan",1271820,PHD,,2006,Guanajuato U.,Guanajuato U.,"Miranda, Omar G.",997309
+"Garcés, Estela A.",1054546,PHD,2008,2012,"UNAM, Mexico","UNAM, Mexico","Miranda, Omar G.",997309
+"Parada Valencia, Alexander",1384628,PHD,2008,2014,Santiago de Cali U.,Santiago de Cali U.,"Miranda, Omar G.",997309
+"Ayala-Torres, Marco Alberto",1768621,MASTER,2015,2017,"CINVESTAV, IPN","CINVESTAV, IPN","Montano Zetina, Luis Manuel",1066312
+"Ayala-Torres, Marco Alberto",1768621,PHD,2018,2022,"CINVESTAV, IPN","CINVESTAV, IPN","Montano Zetina, Luis Manuel",1066312
+"Velazquez, Mercedes Paulina",1059475,PHD,,2011,"CINVESTAV, IPN","CINVESTAV, IPN","Montesinos-Velasquez, Merced",996953
+"Gallardo, Alejandro",1077558,PHD,,2011,"CINVESTAV, IPN","CINVESTAV, IPN","Montesinos-Velasquez, Merced",996953
+"Celada, Mariano",1198359,PHD,,2016,"Mexico City U., Iztapalapa","Mexico City U., Iztapalapa","Montesinos-Velasquez, Merced",996953
+"Huet Hernandez, Idrish",1051979,PHD,,2008,Chiapas Autonoma U.,Chiapas Autonoma U.,"O'Connor, Denjoe",995294
+"Delgadillo-Blando, Rodrigo",1054031,PHD,,2008,"CINVESTAV, IPN","CINVESTAV, IPN","O'Connor, Denjoe",995294
+"Fernández Téllez, Arturo",1010138,PHD,,1991,"Puebla U., Mexico","Puebla U., Mexico","Perez-Angon, Miguel A.",1055658
+"Martinez, Roberto Enrique",998583,PHD,1987,1989,"Colombia, U. Natl.","Colombia, U. Natl.","Perez-Angon, Miguel Angel",993776
+"Tavares-Velasco,Gilberto",986490,PHD,1995,2001,"Santa Cruz U., DCET","Santa Cruz U., DCET","Perez-Angon, Miguel Angel",993776
+"García-Compeán, Hugo",1008900,PHD,,1994,"CINVESTAV, IPN","CINVESTAV, IPN","Plebansky, Jerzy",1062324
+"Hernández Pinto, Roger Jose",1060821,PHD,2008,2012,Sinaloa U.,Sinaloa U.,"Pérez-Lorenzana, Abdel",1025146
+"García-Aguilar, J.D.",1317837,PHD,2010,2017,"IPN, Mexico","IPN, Mexico","Pérez-Lorenzana, Abdel",1025146
+"Venzor, Jorge",1794683,PHD,2014,2021,"CINVESTAV, IPN","CINVESTAV, IPN","Pérez-Lorenzana, Abdel",
+"Miranda Hernández, Jesús Alejandro",1827003,PHD,2018,2022,"CINVESTAV, IPN","CINVESTAV, IPN","Roig Garces, Pablo",1049577
+"Carrillo Moreno, Salvador",1064133,PHD,,2003,Iberoamericana U.,Iberoamericana U.,"Sanchez-Hernandez, Alberto",990458
+"Podesta Lerma, Pedro Luis Manuel",1023554,PHD,2001,2005,"CINVESTAV, IPN","CINVESTAV, IPN","Sanchez-Hernandez, Alberto",990458
+"Vazquez-Valencia, Elsa Fabiola",1050139,PHD,2005,,"CINVESTAV, IPN","CINVESTAV, IPN","Sanchez-Hernandez, Alberto",990458
+"Ramírez-Zavaleta, Fernando Iguazú",1041968,PHD,,2007,"IFM-UMSNH, Michoacan","IFM-UMSNH, Michoacan","Tavares Velasco, Gilberto",986490
+"Vazquez-Bello, Jose-Luis",984890,MASTER,1985,1988,"Rio de Janeiro, CBPF","Rio de Janeiro, CBPF",Unkown,
+"Cuautle, Eleazar F.",1012729,PHD,,1999,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Segovia, Carlos",1653895,PHD,2007,2011,"UNAM, Mexico","UNAM, Mexico",Unkown,
+"Martínez Huerta, Humberto",1073828,MASTER,2010,2012,"Andes U., Merida","Andes U., Merida",Unkown,
+"Cañas, Blanca Cecilia",1511976,MASTER,2010,2012,Pamplona U.,Pamplona U.,Unkown,
+"Tostado, Sergio L.",1492460,MASTER,2010,2012,"Valle U., Cali","Valle U., Cali",Unkown,
+"Guevara, Adolfo",1508969,MASTER,2010,2012,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Morales Salgado, Vicente Said",2036586,MASTER,2010,2012,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Rabadán Trejo, Raúl Iraq",1277582,MASTER,2011,2013,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Quintero, Nestor",1444460,PHD,,2014,Andres Bello Natl. U.,Andres Bello Natl. U.,Unkown,
+"Cañas, Blanca Cecilia",1511976,PHD,2012,2016,Pamplona U.,Pamplona U.,Unkown,
+"Morales Salgado, Vicente Said",2036586,PHD,2012,2016,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Martínez Huerta, Humberto",1073828,PHD,2012,2017,"Andes U., Merida","Andes U., Merida",Unkown,
+"Tostado, Sergio L.",1492460,PHD,2013,2017,"Valle U., Cali","Valle U., Cali",Unkown,
+"Guevara, Adolfo",1508969,PHD,2013,2017,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Sanchez Garcia, Gonzalo",1954660,MASTER,2016,2018,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Rabadán Trejo, Raúl Iraq",1277582,PHD,2014,2019,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Flores Sandoval, Luis Jorge",1809577,PHD,2014,2019,"Unlisted, MX","Unlisted, MX",Unkown,
+"Chacón, Erick",1694392,PHD,2015,2019,"Mexico, ESFM","Mexico, ESFM",Unkown,
+"Sanchez Garcia, Gonzalo",1954660,PHD,2018,,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Contreras-Astorga, Alonso",1072712,PHD,2013,,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Moreno, Gerardo",1021586,PHD,,,Centro Atomico Bariloche,Centro Atomico Bariloche,Unkown,
+"Martinez-Castro, Jesus",1065485,PHD,,,"CIC, IPN","CIC, IPN",Unkown,
+"Amador Ceron, Eduardo Xavier",1069816,PHD,,,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Amador Ceron, Eduardo Xavier",1069816,UNDERGRADUATE,,,"CINVESTAV, IPN","CINVESTAV, IPN",Unkown,
+"Padilla Albores, Luis Enrique",1774079,PHD,2014,2020,"Mexico U., ICN","Mexico U., ICN","Vazquez, José Alberto",1061596
+"Villasenor Cendejas, Luis Manuel",1021497,PHD,1981,1988,"IFM-UMSNH, Michoacan","IFM-UMSNH, Michoacan","Zepeda, Arnulfo",1013360
