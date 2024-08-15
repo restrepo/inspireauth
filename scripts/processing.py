@@ -1,3 +1,14 @@
+"""
+scripts.processing.py
+
+Processing module of the database for the INSPIRE LA dataset.
+
+The functions here generate DataFrames from the main database for any given country.
+
+Note: some functions will be taken from the Jupyter notebooks of the `exploration` branch of the project.
+Date: 15/08/2024
+"""
+
 import pandas as pd
 
 

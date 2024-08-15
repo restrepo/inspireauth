@@ -1,3 +1,12 @@
+"""
+scripts.loading.py
+
+Loading module of the database for the INSPIRE LA dataset.
+
+Note: some functions will be taken from the Jupyter notebooks of the `exploration` branch of the project.
+Date: 15/08/2024
+"""
+
 import json
 import requests
 import pandas as pd
