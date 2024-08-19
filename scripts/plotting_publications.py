@@ -12,7 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator, FormatStrFormatter
 
-from processing import generate_dataframe
+from scripts.processing import generate_dataframe
 
 
 def plot_articles_per_year(country, save=False):
@@ -23,7 +23,7 @@ def plot_articles_per_year(country, save=False):
     countries (list of str): List of country names as strings.
     """
     # Generate the DataFrame for the specified country
-    df = generate_dataframe(country)
+    df = generate_dataframe(country=country)
 
     # Ensure the 'year' column is numeric and drop rows where 'year' is NaN
     df = df[pd.to_numeric(df["year"], errors="coerce").notnull()].reset_index(drop=True)
@@ -63,7 +63,8 @@ def plot_articles_per_year(country, save=False):
         namefig = f"articles_{country}_per_year"
         # Define the directory relative to the current file
         output_dir = os.path.join(
-            os.path.dirname(__file__), "../figures/individual_articles_per_year"
+            os.path.dirname(__file__),
+            "../analysis_figures/individual_articles_per_year",
         )
         # Create the directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)
@@ -130,7 +131,7 @@ def plot_combined_papers_per_year(countries, save=False):
         namefig = f"{joined_string}_plot"
         # Define the directory relative to the current file
         output_dir = os.path.join(
-            os.path.dirname(__file__), "../figures/combined_articles_per_year"
+            os.path.dirname(__file__), "../analysis_figures/combined_articles_per_year"
         )
         # Create the directory if it doesn't exist
         os.makedirs(output_dir, exist_ok=True)

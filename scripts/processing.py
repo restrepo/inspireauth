@@ -11,14 +11,20 @@ Date: 15/08/2024
 
 import pandas as pd
 
+from scripts.loading import load_data
 
-def generate_dataframe(db_master: pd.DataFrame, country: str) -> pd.DataFrame:
+# Load the master database
+DATABASE = load_data(local=False)
+
+
+def generate_dataframe(country: str) -> pd.DataFrame:
     """
     Generate a DataFrame whose rows are all the publications of a given country.
     The `recid` entry is unique for each publication.
     """
     # select column
-    db = db_master[db_master["country"] == country].reset_index(drop=True)
+    # db = db_master[db_master["country"] == country].reset_index(drop=True)
+    db = DATABASE[DATABASE["country"] == country].reset_index(drop=True)
 
     # obtain list of the institutions of the country
     inst_list = db["institution_id"].drop_duplicates().to_list()

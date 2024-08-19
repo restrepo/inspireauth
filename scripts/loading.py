@@ -28,6 +28,7 @@ def load_data(
     Returns:
     pd.DataFrame: The loaded dataset as a pandas DataFrame.
     """
+    print("Loading data...")
     if local:
         with open(local_path, "r") as f:
             data = json.load(f)
@@ -36,6 +37,7 @@ def load_data(
         data = r.json()
 
     df = pd.DataFrame(data)
+    print("Data loaded successfully!")
     return df
 
 
