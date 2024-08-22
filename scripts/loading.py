@@ -43,3 +43,19 @@ def load_data(
 
 # Example usage (this would be in your main script, not in the module):
 # db_master = load_data(local=False)
+
+
+def load_world_papers():
+    """
+    Load the DataFrame of all the papers in the world.
+
+    Returns:
+        pd.DataFrame: The DataFrame of all the papers of the world. The index is the year and the column is the number of papers.
+    """
+    df_world = pd.read_csv("world_papers.csv")
+    df_world = df_world[["year", "Citable papers"]]
+    df_world = df_world.rename(columns={"Citable papers": "World"})
+    df_world = df_world.set_index("year")
+    df_world = df_world[df_world.index <= 2021]
+
+    return df_world
