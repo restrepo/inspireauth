@@ -11,8 +11,8 @@ Date: 15/08/2024
 
 import pandas as pd
 
-from scripts.loading import load_data
-from scripts.utils import LA_countries
+from loading import load_data
+from utils import LA_countries
 
 # Load the master database
 DATABASE = load_data(local=False)
