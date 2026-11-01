@@ -1,5 +1,5 @@
 # inspireauth
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23868570.svg)](https://doi.org/10.5281/zenodo.23868570)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23868569.svg)](https://doi.org/10.5281/zenodo.23868569)
 
 INSPIRE-HEP author records for Latin America, and the code used to build them.
 
@@ -7,7 +7,7 @@ INSPIRE-HEP author records for Latin America, and the code used to build them.
 
 [`data/inspire_LA.json`](./data/inspire_LA.json) is the full dataset: a single JSON file (230 MB) with **57,588 records of 29,979 distinct authors** in High Energy Physics, Cosmology and Astroparticle Physics with affiliations to Latin American institutions in [INSPIRE-HEP](https://inspirehep.net), and 49,181 distinct papers published up to 2022. It is the data behind *Statistical Analysis of Scientific Metrics in High Energy, Cosmology, and Astroparticle Physics in Latin America* (M. Morales-Alvarado, F. Quevedo, M. Ramos-Hamud, D. Restrepo).
 
-On GitHub the file is stored with [Git LFS](https://git-lfs.com): clone with `git-lfs` installed, or download the release archive from [Zenodo](https://doi.org/10.5281/zenodo.23868570), which contains the full file.
+On GitHub the file is stored with [Git LFS](https://git-lfs.com): clone with `git-lfs` installed, or download the release archive from [Zenodo](https://doi.org/10.5281/zenodo.23868569), which contains the full file.
 
 ```python
 import json
@@ -107,7 +107,7 @@ For each Latin American country, the institutions of that country were taken fro
 
 ## Citation
 
-Cite the dataset with its DOI, [10.5281/zenodo.23868570](https://doi.org/10.5281/zenodo.23868570); see [CITATION.cff](CITATION.cff). License: CC0-1.0.
+Cite the dataset with its DOI, [10.5281/zenodo.23868569](https://doi.org/10.5281/zenodo.23868569); see [CITATION.cff](CITATION.cff). License: CC0-1.0.
 
 ## Maintenance: delete older versions of the dataset
 To delete older versions of a file in your repository, you need to remove or clean up the history where those versions exist. Here are the steps you can follow:

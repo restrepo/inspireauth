@@ -34,7 +34,7 @@ authors:
     given-names: Diego
     affiliation: "University of Antioquia"
     orcid: "https://orcid.org/0000-0001-6455-5564"
-version: 1.0.0
+version: 1.0.1
 date-released: "2026-11-01"
 license: CC0-1.0
 repository-code: "https://github.com/restrepo/inspireauth"
