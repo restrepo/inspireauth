@@ -1,4 +1,6 @@
 # inspireauth
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23868570.svg)](https://doi.org/10.5281/zenodo.23868570)
+
 Get authors info from INSPIRE-HEP
 
 # Construction of JSON object Authors from INSPIRE-HEP
