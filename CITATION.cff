@@ -15,12 +15,15 @@ authors:
   - family-names: Quevedo
     given-names: Fernando
     affiliation: "University of Cambridge; New York University Abu Dhabi"
+    orcid: "https://orcid.org/0000-0002-7810-3662"
   - family-names: Ramos-Hamud
     given-names: Mario
     affiliation: "University of Cambridge"
+    orcid: "https://orcid.org/0000-0001-9751-6465"
   - family-names: Restrepo
     given-names: Diego
     affiliation: "University of Antioquia"
+    orcid: "https://orcid.org/0000-0001-6455-5564"
 version: 1.0.0
 date-released: "2026-11-01"
 license: CC0-1.0
