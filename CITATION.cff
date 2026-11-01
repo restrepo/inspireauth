@@ -3,10 +3,20 @@ message: "If you use this dataset, please cite it as below."
 type: dataset
 title: "inspireauth: INSPIRE-HEP author records for Latin America"
 abstract: >-
-  JSON records of 57,588 authors with Latin American affiliations in
-  INSPIRE-HEP (data/inspire_LA.json), including identifiers, institutions,
-  positions, advisors, papers and inferred gender, together with the
-  notebooks used to build them.
+  The main content of this record is the full dataset data/inspire_LA.json
+  (230 MB): a single JSON file with 57,588 records (one per author and
+  institution) of 29,979 authors in High Energy Physics, Cosmology and
+  Astroparticle Physics with affiliations to Latin American institutions
+  in INSPIRE-HEP, covering 49,181 papers up to 2022. Each record has the
+  author's identifiers (INSPIRE BAI, ORCID), institution and country,
+  INSPIRE profile positions and ranks, thesis advisors, inferred gender
+  with its probability, and the list of papers with year, citations,
+  arXiv category, journal and the author's affiliation and rank at the
+  time of publication. The data schema is documented in README.md. The
+  archive also contains the notebooks used to build the dataset and
+  auxiliary data. It is the data behind "Statistical Analysis of
+  Scientific Metrics in High Energy, Cosmology, and Astroparticle Physics
+  in Latin America".
 authors:
   - family-names: Morales-Alvarado
     given-names: Manuel
