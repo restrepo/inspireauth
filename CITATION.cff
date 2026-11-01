@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+type: dataset
+title: "inspireauth: INSPIRE-HEP author records for Latin America"
+abstract: >-
+  JSON records of 57,588 authors with Latin American affiliations in
+  INSPIRE-HEP (data/inspire_LA.json), including identifiers, institutions,
+  positions, advisors, papers and inferred gender, together with the
+  notebooks used to build them.
+authors:
+  - family-names: Morales-Alvarado
+    given-names: Manuel
+    affiliation: "INFN, Sezione di Trieste"
+    orcid: "https://orcid.org/0000-0002-3974-3448"
+  - family-names: Quevedo
+    given-names: Fernando
+    affiliation: "University of Cambridge; New York University Abu Dhabi"
+  - family-names: Ramos-Hamud
+    given-names: Mario
+    affiliation: "University of Cambridge"
+  - family-names: Restrepo
+    given-names: Diego
+    affiliation: "University of Antioquia"
+version: 1.0.0
+date-released: "2026-11-01"
+license: CC0-1.0
+repository-code: "https://github.com/restrepo/inspireauth"
+keywords:
+  - INSPIRE-HEP
+  - high energy physics
+  - Latin America
+  - scientometrics
+  - authors
