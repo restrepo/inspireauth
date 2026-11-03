@@ -56,7 +56,7 @@ Not recomputed: Tables 3–4 (INSPIRE web queries, read from
 
 ## Automatic updates and GitHub Pages
 
-Publishing a release of this repository runs the workflow
+Publishing a release whose tag starts with `v` (v2.0.0, …) runs the workflow
 [`update-data.yml`](../.github/workflows/update-data.yml) (about an hour):
 
 1. it downloads the data again from INSPIRE-HEP (`build/build_inspire_LA.py`);

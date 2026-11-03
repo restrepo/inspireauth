@@ -2,7 +2,7 @@
 # board of the new data (self-contained HTML), and publishes it on GitHub Pages (branch
 # gh-pages, boards/<date>/ plus an index of every board).
 #
-# On a release:  the data and the board are attached to the release, a pull request puts them
+# On a release (tag v*):  the data and the board are attached to the release, a pull request puts them
 #                on main (data/inspire_LA.json.gz, reproduce/dashboard_<year>.html), and the
 #                board is added to GitHub Pages.
 # Manual run:    the same, without a release (publish: false only builds and uploads an artifact).
@@ -36,6 +36,8 @@ concurrency:
 
 jobs:
   update:
+    # releases: only tags starting with v (the release event has no tag filter of its own)
+    if: github.event_name != 'release' || startsWith(github.event.release.tag_name, 'v')
     runs-on: ubuntu-latest
     timeout-minutes: 300
     permissions:
