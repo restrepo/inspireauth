@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HECAP Latin America Boards</title>
+<style>
+:root { color-scheme: light dark; --fg: #1f1e1d; --muted: #6b6966; --bg: #faf9f5; --panel: #fff; --line: #e3e0d8;
+  --accent: #3266ad; }
+@media (prefers-color-scheme: dark) { :root { --fg: #ecebe7; --muted: #a6a39c; --bg: #1c1b19; --panel: #262523;
+  --line: #3a3936; --accent: #6f9be0; } }
+html { background: var(--bg); }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--fg); background: var(--bg); }
+main { max-width: 60rem; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-family: Georgia, "Times New Roman", serif; font-weight: 400; font-size: 30px; margin: 0 0 8px; }
+p { color: var(--muted); line-height: 1.5; max-width: 70ch; }
+a { color: var(--accent); }
+.list { display: grid; gap: 12px; margin-top: 24px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.card h2 { font-size: 18px; font-weight: 550; margin: 0 0 4px; }
+.card .meta { color: var(--muted); font-size: 13px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 10px; font-variant-numeric: tabular-nums; }
+.stats div { font-size: 13px; color: var(--muted); }
+.stats b { display: block; font-size: 18px; color: var(--fg); font-weight: 500; }
+.tag { display: inline-block; font-size: 12px; border: 1px solid var(--line); border-radius: 99px; padding: 1px 8px;
+  margin-left: 6px; color: var(--muted); vertical-align: middle; }
+</style>
+</head>
+<body>
+<main>
+<h1>HECAP Latin America boards</h1>
+<p>Each board recomputes the tables and figures of <i>Statistical Analysis of Scientific Metrics in High Energy,
+Cosmology, and Astroparticle Physics in Latin America</i> (Morales-Alvarado, Quevedo, Ramos-Hamud, Restrepo) from
+one version of the INSPIRE-HEP dataset of <a href="https://github.com/restrepo/inspireauth">restrepo/inspireauth</a>
+and compares them with the printed values. The paper's board uses the paper's data (up to 2022); the others,
+built when a new release of the repository is published, use a new download from INSPIRE-HEP.
+Every board is a self-contained page that also works offline.</p>
+<div class="list">
+<div class="card">
+<h2><a href="boards/2026-11-03/">Data of 2026-11-03</a><span class="tag">latest</span></h2>
+<div class="meta">INSPIRE-HEP download of 2026-11-03, papers up to 2026, compared with the paper&#x27;s 2022 data</div>
+<div class="stats"><div><b>73,118</b>records</div><div><b>36,570</b>authors</div>
+<div><b>60,538</b>papers</div><div><b>23,564</b>with gender</div>
+<div><b>220 / 558</b>table cells equal to the paper</div></div>
+</div>
+<div class="card">
+<h2><a href="boards/paper/">The paper&#x27;s data (up to 2022)</a><span class="tag">paper</span></h2>
+<div class="meta">data/inspire_LA.json of tag v1.0.1 (Zenodo doi:10.5281/zenodo.23868569); reproduces the paper · release <a href="https://github.com/restrepo/inspireauth/releases/tag/v1.0.1">v1.0.1</a></div>
+<div class="stats"><div><b>57,588</b>records</div><div><b>29,979</b>authors</div>
+<div><b>49,181</b>papers</div><div><b>18,029</b>with gender</div>
+<div><b>556 / 558</b>table cells equal to the paper</div></div>
+</div>
+</div>
+</main>
+</body>
+</html>

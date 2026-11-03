@@ -1,0 +1,28 @@
+[
+ {
+  "id": "paper",
+  "title": "The paper's data (up to 2022)",
+  "note": "data/inspire_LA.json of tag v1.0.1 (Zenodo doi:10.5281/zenodo.23868569); reproduces the paper",
+  "release": "v1.0.1",
+  "added": "2026-11-03",
+  "records": 57588,
+  "authors": 29979,
+  "papers": 49181,
+  "gender_known": 18029,
+  "cells": 558,
+  "cells_match": 556
+ },
+ {
+  "id": "2026-11-03",
+  "title": "Data of 2026-11-03",
+  "note": "INSPIRE-HEP download of 2026-11-03, papers up to 2026, compared with the paper's 2022 data",
+  "release": "",
+  "added": "2026-11-03",
+  "records": 73118,
+  "authors": 36570,
+  "papers": 60538,
+  "gender_known": 23564,
+  "cells": 558,
+  "cells_match": 220
+ }
+]
