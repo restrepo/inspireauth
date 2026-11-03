@@ -4,9 +4,11 @@ The counting rules follow the notebooks in INSPIREHEP_new_nbs/:
 - a country's papers are the papers of its author records whose
   `institution_id` is one of the country's institutions, deduplicated by recid;
 - authors are the distinct `author_id` of the country's records;
-- an author is active if one of those papers is from 2017 or later.
+- an author is active if one of those papers is from 2017 or later;
+- genders come from genderize-offline (pip install genderize-offline), or with
+  --genderize-io from the genderize.io fields stored in the dataset.
 
-Usage: python reproduce/reproduce.py [data/inspire_LA.json] [results.json]
+Usage: python reproduce/reproduce.py [data/inspire_LA.json] [results.json] [--genderize-io]
 """
 import csv
 import json
@@ -75,9 +77,9 @@ def linfit(xs, ys):
     return {'slope': slope, 'intercept': icpt, 'r2': 1 - ss_res / ss_tot, 'n': n}
 
 
-def main(data_path, out_path):
+def main(data_path, out_path, gender_source='offline'):
     records = json.load(open(data_path))
-    out = {'source': str(data_path), 'n_records': len(records),
+    out = {'source': str(data_path), 'gender_source': gender_source, 'n_records': len(records),
            'n_authors': len({r['author_id'] for r in records}),
            'n_papers': len({p['recid'] for r in records for p in r.get('papers') or []})}
 
@@ -173,11 +175,23 @@ def main(data_path, out_path):
     out['authors_with_rank'] = len({r['author_id'] for r in records
                                     if any(p.get('rank') for p in r.get('positions') or [])})
 
-    # gender: unique authors per year with probability >= 0.9
+    # gender: unique authors per year with probability >= 0.9, inferred offline with
+    # genderize-offline (WGND 2.0) from the first record of each author, or the
+    # genderize.io fields stored in the dataset
     gender = {}
-    for r in records:
-        if r.get('gender') in ('male', 'female') and (r.get('gender_probability') or 0) >= 0.9:
-            gender[r['author_id']] = r['gender']
+    if gender_source == 'offline':
+        from genderize_offline import guess
+        first = {}
+        for r in records:
+            first.setdefault(r['author_id'], r)
+        for k, r in first.items():
+            g, p, _ = guess(r.get('first_names', ''), r.get('country', ''))
+            if g != 'unknown' and p >= 0.9:
+                gender[k] = g
+    else:
+        for r in records:
+            if r.get('gender') in ('male', 'female') and (r.get('gender_probability') or 0) >= 0.9:
+                gender[r['author_id']] = r['gender']
     out['gender_known'] = len(gender)
     by_year = defaultdict(dict)
     rank_group = defaultdict(dict)
@@ -218,6 +232,7 @@ def main(data_path, out_path):
 
 
 if __name__ == '__main__':
-    data = sys.argv[1] if len(sys.argv) > 1 else ROOT / 'data/inspire_LA.json'
-    res = sys.argv[2] if len(sys.argv) > 2 else HERE / 'results.json'
-    main(data, res)
+    args = [a for a in sys.argv[1:] if a != '--genderize-io']
+    data = args[0] if args else ROOT / 'data/inspire_LA.json'
+    res = args[1] if len(args) > 1 else HERE / 'results.json'
+    main(data, res, 'genderize.io' if '--genderize-io' in sys.argv else 'offline')

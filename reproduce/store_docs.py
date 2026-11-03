@@ -38,7 +38,7 @@ DATASETS = {
 }
 
 
-def main(blobs_path, outdir, by='reproduce.py on data/inspire_LA.json with offline genders'):
+def main(blobs_path, outdir, by='reproduce.py on data/inspire_LA.json, genders from genderize-offline 0.1.0'):
     blobs = json.load(open(blobs_path))
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)
