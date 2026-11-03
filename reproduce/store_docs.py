@@ -30,13 +30,15 @@ DATASETS = {
     'collab': ('Collaboration matrices',
                "Share of a country's articles co-authored with another country, recomputed for Figs. 22 and 23."),
     'gender_year': ('Female fraction per year',
-                    'Recomputed female fraction of the authors who published each year, with its 95% margin.'),
+                    'Recomputed female fraction of the authors who published each year, with its 95% margin; '
+                    'genders inferred offline with the World Gender Name Dictionary 2.0.'),
     'gender_rank': ('Female fraction by rank',
-                    'Table 8 of the paper beside the recomputed counts and female fractions.'),
+                    'Table 8 of the paper (genderize.io) beside the recomputed counts and female fractions '
+                    '(offline genders, World Gender Name Dictionary 2.0).'),
 }
 
 
-def main(blobs_path, outdir, by='reproduce.py on data/inspire_LA.json'):
+def main(blobs_path, outdir, by='reproduce.py on data/inspire_LA.json with offline genders'):
     blobs = json.load(open(blobs_path))
     out = Path(outdir)
     out.mkdir(parents=True, exist_ok=True)

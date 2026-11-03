@@ -7,13 +7,15 @@ They use only the Python standard library.
 
 ```bash
 git lfs pull --include data/inspire_LA.json   # the repo stores a pointer
-python reproduce/reproduce.py data/inspire_LA.json results.json
+python reproduce/offline_gender.py inspire data/inspire_LA.json inspire_LA_offline.json
+python reproduce/reproduce.py inspire_LA_offline.json results.json
 python reproduce/compare.py ../jdis-version.tex results.json page_data.json
 python reproduce/export_dashboard.py page_data.json dash/
 ```
 
 | Script | Output |
 |---|---|
+| `offline_gender.py` | rewrites the gender fields offline from first name and country with the World Gender Name Dictionary 2.0 (CC0), in place of genderize.io; downloads it once (91 MB) to `~/.cache/offline-gender/` |
 | `reproduce.py` | `results.json`: per-country authors, papers, citations, h-index, ranks, gender, collaborations, world share and R² |
 | `compare.py` | `page_data.json`: each table cell of Tables 5, 6, 7, 10, 11 and 12 with status exact, rounded, truncated or differs; prints matches per table |
 | `export_dashboard.py` | the eight dataset files of the dashboard |
@@ -31,7 +33,9 @@ python reproduce/export_dashboard.py page_data.json dash/
 - Table 6 counts distinct (author, position); Table 7 counts distinct
   (recid, author, institution, start date) of papers published under a rank.
 - Table 8 takes a position whose years cover a year in which the author published,
-  and gender probability ≥ 0.9.
+  and gender probability ≥ 0.9. The dashboard uses the offline genders; they agree with
+  genderize.io for 99.6% of the authors both assign, and Table 8 and Fig. 21 move by less
+  than their 95% margins.
 
 Not recomputed: Tables 3–4 (INSPIRE web queries, read from
 `INSPIREHEP_new_nbs/world_papers.csv`), the OpenAlex section and the rank-mobility figures.

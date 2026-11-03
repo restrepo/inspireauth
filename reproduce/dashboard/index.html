@@ -171,12 +171,12 @@
   <section id="gender" role="tabpanel" hidden>
     <div class="card" id="female-year">
       <h2>Female fraction of authors per year</h2>
-      <p class="note">Fig. 21. Distinct authors who published in each year with a gender inferred at probability 0.9 or more; the band is the 95% margin of error.</p>
+      <p class="note">Fig. 21. Distinct authors who published in each year with a gender inferred at probability 0.9 or more; the band is the 95% margin of error. Genders here are inferred offline from first name and country with the World Gender Name Dictionary 2.0, not with genderize.io as in the paper.</p>
       <div class="chart tall" data-draw="gender-chart" data-source="gender_year"></div>
     </div>
     <div class="card" id="female-rank">
       <h2>Female fraction by rank</h2>
-      <p class="note">Table 8. Authors holding a declared rank in a year in which they published. The recomputed counts are a few percent below the paper's; the fractions agree within their margins.</p>
+      <p class="note">Table 8. Authors holding a declared rank in a year in which they published. The recomputed counts use the offline genders and are a few percent below the paper's (genderize.io); the fractions agree within their margins.</p>
       <div class="scroll">
         <table data-source="gender_rank" data-row-key="group">
           <thead><tr><th data-field="group">Rank</th><th class="n" data-field="paper_n">Authors, paper</th><th class="n" data-field="ours_n">Authors, recomputed</th><th class="n" data-field="paper_pct">Female %, paper</th><th class="n" data-field="ours_pct">Female %, recomputed</th></tr></thead>
@@ -198,12 +198,14 @@
           <li>Table 6 counts distinct declared positions; Table 7 counts distinct paper, author and position combinations.</li>
           <li>Per million inhabitants uses the UN populations of Table 1.</li>
           <li>Collaboration: share of the row country's papers that also belong to the column country.</li>
+          <li>Gender: inferred offline from the first given name and the country of the author's first record, with the World Gender Name Dictionary 2.0 (WGND, CC0), in place of genderize.io; known at probability 0.9 or more. Where both give a gender they agree for 99.6% of authors.</li>
         </ul>
       </div>
       <div class="card">
         <h2>Run it yourself</h2>
         <p class="note">The scripts are in <code>reproduce/</code> of the inspireauth repository. They need only the Python standard library and run in a few seconds.</p>
-<pre>python reproduce/reproduce.py data/inspire_LA.json results.json
+<pre>python offline_gender.py inspire data/inspire_LA.json inspire_LA_offline.json
+python reproduce/reproduce.py inspire_LA_offline.json results.json
 python reproduce/compare.py ../jdis-version.tex results.json page_data.json
 python reproduce/export_dashboard.py page_data.json dash/</pre>
         <p class="note">Not recomputed here: the global output (Tables 3–4, INSPIRE-HEP queries), the OpenAlex comparison (Sect. 8), and the per-country rank mobility plots (Figs. 4 and 37–39).</p>

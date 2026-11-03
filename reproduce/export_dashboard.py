@@ -40,7 +40,7 @@ def main(page_data, outdir):
         {'id': 'authors', 'group': 'Dataset', 'label': 'Distinct authors', 'paper': 29969, 'ours': d['n_authors']},
         {'id': 'rank_authors', 'group': 'Dataset', 'label': 'Authors with a declared rank', 'paper': 7023,
          'ours': d['authors_with_rank']},
-        {'id': 'gender_known', 'group': 'Dataset', 'label': 'Authors with gender (p ≥ 0.9)', 'paper': 18000,
+        {'id': 'gender_known', 'group': 'Dataset', 'label': 'Authors with gender (p ≥ 0.9, offline)', 'paper': 18000,
          'ours': d['gender_known']},
         {'id': 'papers', 'group': 'Dataset', 'label': 'Distinct papers', 'paper': None, 'ours': d['n_papers']},
         {'id': 'records', 'group': 'Dataset', 'label': 'Author–institution records', 'paper': None,
