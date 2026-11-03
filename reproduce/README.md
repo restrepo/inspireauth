@@ -2,16 +2,27 @@
 
 These scripts recompute the tables and figures of the JDIS manuscript
 ("High-energy physics in Latin America", `jdis-version.tex`) from
-`data/inspire_LA.json` and compare them cell by cell with the printed values.
+`data/inspire_LA.json.gz` and compare them cell by cell with the printed values.
 They use the Python standard library and genderize-offline.
 
 ```bash
-git lfs pull --include data/inspire_LA.json   # the repo stores a pointer
+# the paper's data: git show v1.0.1:data/inspire_LA.json (Git LFS) or Zenodo; the current file is a later rebuild
 pip install -r reproduce/requirements.txt      # genderize-offline, from PyPI
-python reproduce/reproduce.py data/inspire_LA.json results.json
+python reproduce/reproduce.py data/inspire_LA.json.gz results.json
 python reproduce/compare.py ../jdis-version.tex results.json page_data.json
 python reproduce/export_dashboard.py page_data.json dash/
 python reproduce/standalone.py dash/ reproduce/dashboard.html
+```
+
+The paper's board (`dashboard.html`) is built from the paper's data (tag `v1.0.1`, `--year 2022`, the default).
+The board of the 2026 rebuild, [`dashboard_2026.html`](dashboard_2026.html), compares the same tables with the
+paper after four more years of data:
+
+```bash
+python reproduce/reproduce.py data/inspire_LA.json.gz results.json --year 2026
+python reproduce/compare.py ../jdis-version.tex results.json page_data.json
+python reproduce/export_dashboard.py page_data.json dash/
+python reproduce/standalone.py dash/ reproduce/dashboard_2026.html --edits reproduce/dashboard/edits_2026.json
 ```
 
 | Script | Output |
@@ -19,7 +30,7 @@ python reproduce/standalone.py dash/ reproduce/dashboard.html
 | `reproduce.py` | `results.json`: per-country authors, papers, citations, h-index, ranks, gender, collaborations, world share and R² |
 | `compare.py` | `page_data.json`: each table cell of Tables 5, 6, 7, 10, 11 and 12 with status exact, rounded, truncated or differs; prints matches per table |
 | `export_dashboard.py` | the eight dataset files of the dashboard |
-| `standalone.py` | `dashboard.html`: the whole dashboard in one self-contained file (page, data and d3 inlined; opens offline) |
+| `standalone.py` | `dashboard.html` / `dashboard_2026.html`: the whole dashboard in one self-contained file (page, data and d3 inlined; opens offline); `--edits` adapts the wording |
 | `store_docs.py` | the dashboard's store documents, from `dashboard/blobs.json` (uploaded blob ids) |
 
 [`dashboard.html`](dashboard.html) is the dashboard as one file: download it and open it in a browser.

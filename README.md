@@ -3,21 +3,25 @@
 
 INSPIRE-HEP author records for Latin America, and the code used to build them.
 
-## The dataset: `data/inspire_LA.json`
+## The dataset: `data/inspire_LA.json.gz`
 
-[`data/inspire_LA.json`](./data/inspire_LA.json) is the full dataset: a single JSON file (230 MB) with **57,588 records of 29,979 distinct authors** in High Energy Physics, Cosmology and Astroparticle Physics with affiliations to Latin American institutions in [INSPIRE-HEP](https://inspirehep.net), and 49,181 distinct papers published up to 2022. It is the data behind *Statistical Analysis of Scientific Metrics in High Energy, Cosmology, and Astroparticle Physics in Latin America* (M. Morales-Alvarado, F. Quevedo, M. Ramos-Hamud, D. Restrepo).
+[`data/inspire_LA.json.gz`](./data/inspire_LA.json.gz) is the full dataset: a single gzipped JSON file (21 MB; 333 MB uncompressed) with **73,118 records of 36,570 distinct authors** in High Energy Physics, Cosmology and Astroparticle Physics with affiliations to Latin American institutions in [INSPIRE-HEP](https://inspirehep.net), and 60,538 distinct papers, downloaded on 2026-11-03 (papers up to 2026).
 
-On GitHub the file is stored with [Git LFS](https://git-lfs.com): clone with `git-lfs` installed, or download the release archive from [Zenodo](https://doi.org/10.5281/zenodo.23868569), which contains the full file.
+The paper *Statistical Analysis of Scientific Metrics in High Energy, Cosmology, and Astroparticle Physics in Latin America* (M. Morales-Alvarado, F. Quevedo, M. Ramos-Hamud, D. Restrepo) used the earlier version, with 57,588 records of 29,979 authors and 49,181 papers up to 2022: it is in the [Zenodo release](https://doi.org/10.5281/zenodo.23868569) and in the git tag `v1.0.1` of this repository.
+
+It is an ordinary git file (no Git LFS needed). The paper's version, `data/inspire_LA.json` at tag `v1.0.1`, is stored with [Git LFS](https://git-lfs.com): check it out with `git-lfs` installed, or download it from [Zenodo](https://doi.org/10.5281/zenodo.23868569).
 
 ```python
-import json
-with open('data/inspire_LA.json') as f:
-    authors = json.load(f)          # list of 57,588 dicts
+import gzip, json
+with gzip.open('data/inspire_LA.json.gz', 'rt', encoding='utf-8') as f:
+    authors = json.load(f)          # list of 73,118 dicts
 ```
+
+or `pandas.read_json('data/inspire_LA.json.gz')`; `gunzip -k data/inspire_LA.json.gz` gives the plain JSON.
 
 ### How the records were built
 
-For each Latin American country, the institutions of that country were taken from INSPIRE-HEP, and for each institution its papers with at most 10 authors. Every author of those papers became a record. Authors are then extended with their INSPIRE profile (positions, advisors, e-mails, identifiers), each paper gets the rank and affiliation the author held when it was published ([students.ipynb](students.ipynb)), and gender is inferred from the first names and the country of the affiliation ([gender.ipynb](gender.ipynb), [gender-genderize.ipynb](gender-genderize.ipynb)). The construction code is in [INSPIREHEP.ipynb](INSPIREHEP.ipynb).
+For each Latin American country, the institutions of that country were taken from INSPIRE-HEP, and for each institution its papers with at most 10 authors. Every author of those papers became a record. Authors are then extended with their INSPIRE profile (positions, advisors, e-mails, identifiers), each paper gets the rank and affiliation the author held when it was published ([students.ipynb](students.ipynb)), and gender is inferred from the first names and the country of the affiliation ([gender.ipynb](gender.ipynb), [gender-genderize.ipynb](gender-genderize.ipynb)). The construction code is in [INSPIREHEP.ipynb](INSPIREHEP.ipynb); [build/build_inspire_LA.py](build/build_inspire_LA.py) follows the same rules in one script (cached, batched requests; gender with [genderize-offline](https://pypi.org/project/genderize-offline/)) and built the current file: `python build/build_inspire_LA.py` (writes `data/inspire_LA.json.gz`; the same data give the same bytes).
 
 <img src="img/authors.svg" width=700>
 
@@ -33,12 +37,12 @@ For each Latin American country, the institutions of that country were taken fro
 | `first_names` | string | Given names used for gender inference (initials removed); empty if only initials are known. |
 | `name` | object or null | Name block of the INSPIRE profile: `value`, `preferred_name`, `name_variants`, `native_names`, `previous_names`, `numeration`. |
 | `ids` | list or null | Identifiers from the profile, `{schema, value}` with schema such as `INSPIRE BAI`, `INSPIRE ID`, `ORCID`, `SPIRES`, `DESY`. |
-| `email_addresses` | list or null | `{value, current, hidden}`. |
+| `email_addresses` | list or null | `{value, current, hidden}`. Null since the 2026 rebuild: the INSPIRE API no longer gives e-mails publicly. |
 | `institution` | string | INSPIRE short name of the institution of this record, e.g. `Antioquia U.` |
 | `institution_id` | string | INSPIRE institution record number (`https://inspirehep.net/api/institutions/<institution_id>`). |
 | `country` | string | Country of `institution`. Not necessarily Latin American (see above). |
-| `gender` | string | `male`, `female` or `unknown`, inferred with [genderize.io](https://genderize.io) from `first_names` and `country`. |
-| `gender_probability` | float | Probability of `gender` given by genderize.io (0.5–1; 0 for `unknown`). The paper treats values below 0.9 as unknown, which leaves 18,017 authors with a gender. |
+| `gender` | string | `male`, `female` or `unknown`, inferred with [genderize-offline](https://pypi.org/project/genderize-offline/) (World Gender Name Dictionary 2.0) from `first_names` and the `country` of the author's first record (genderize.io before the 2026 rebuild). |
+| `gender_probability` | float | Probability of `gender` (0.5–1; 0 for `unknown`). The paper treats values below 0.9 as unknown, which leaves 23,564 authors with a gender (18,017 in the paper's version). |
 | `positions` | list or null | Positions from the INSPIRE profile (see below). |
 | `advisors` | list | Thesis advisors from the profile, `{name, degree_type, ids, record, curated_relation, hidden}`; `degree_type` is `phd`, `master` or `other`. |
 | `papers` | list | Papers of the author (see below). |

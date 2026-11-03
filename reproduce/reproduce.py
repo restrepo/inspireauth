@@ -4,13 +4,16 @@ The counting rules follow the notebooks in INSPIREHEP_new_nbs/:
 - a country's papers are the papers of its author records whose
   `institution_id` is one of the country's institutions, deduplicated by recid;
 - authors are the distinct `author_id` of the country's records;
-- an author is active if one of those papers is from 2017 or later;
+- an author is active with one of those papers from --year minus 5 or later (2017 for the paper);
 - genders come from genderize-offline (pip install genderize-offline), or with
   --genderize-io from the genderize.io fields stored in the dataset.
 
-Usage: python reproduce/reproduce.py [data/inspire_LA.json] [results.json] [--genderize-io]
+Usage: python reproduce/reproduce.py [data/inspire_LA.json.gz] [results.json] [--genderize-io] [--year 2022]
+--year: the year the data end (2022 for the paper's data, 2026 for the 2026 rebuild)
+(a plain .json, such as the paper's version, works too)
 """
 import csv
+import gzip
 import json
 import math
 import sys
@@ -77,9 +80,13 @@ def linfit(xs, ys):
     return {'slope': slope, 'intercept': icpt, 'r2': 1 - ss_res / ss_tot, 'n': n}
 
 
-def main(data_path, out_path, gender_source='offline'):
-    records = json.load(open(data_path))
-    out = {'source': str(data_path), 'gender_source': gender_source, 'n_records': len(records),
+def main(data_path, out_path, gender_source='offline', year=None):
+    global CURRENT_YEAR
+    CURRENT_YEAR = year or CURRENT_YEAR
+    opener = gzip.open if str(data_path).endswith('.gz') else open
+    with opener(data_path, 'rt', encoding='utf-8') as f:
+        records = json.load(f)
+    out = {'source': str(data_path), 'gender_source': gender_source, 'current_year': CURRENT_YEAR, 'n_records': len(records),
            'n_authors': len({r['author_id'] for r in records}),
            'n_papers': len({p['recid'] for r in records for p in r.get('papers') or []})}
 
@@ -119,7 +126,7 @@ def main(data_path, out_path, gender_source='offline'):
             'citations_per_author': sum(cits) / n_auth,
             'h_index': h_index(cits), 'h_pmi': h_index(cits) / pop,
             'h_per_author': h_index(cits) / n_auth,
-            'papers_per_year': {y: years[y] for y in sorted(years) if y <= 2021},
+            'papers_per_year': {y: years[y] for y in sorted(years) if y < CURRENT_YEAR},
         }
     out['countries'] = per_country
 
@@ -224,7 +231,7 @@ def main(data_path, out_path, gender_source='offline'):
         n = len(d)
         f = sum(1 for g in d.values() if g == 'female') / n if n else 0
         return {'n': n, 'female_pct': 100 * f, 'ci95': 100 * 1.96 * math.sqrt(f * (1 - f) / n) if n else 0}
-    out['gender_by_year'] = {y: frac(by_year[y]) for y in sorted(by_year) if 1970 <= y <= 2022}
+    out['gender_by_year'] = {y: frac(by_year[y]) for y in sorted(by_year) if 1970 <= y <= CURRENT_YEAR}
     out['gender_by_rank'] = {k: frac(rank_group[k]) for k in ['All ranks', *groups]}
 
     json.dump(out, open(out_path, 'w'), indent=1)
@@ -232,7 +239,13 @@ def main(data_path, out_path, gender_source='offline'):
 
 
 if __name__ == '__main__':
-    args = [a for a in sys.argv[1:] if a != '--genderize-io']
-    data = args[0] if args else ROOT / 'data/inspire_LA.json'
+    argv = sys.argv[1:]
+    year = None
+    if '--year' in argv:  # the year the data end: active authors, last full year of the per-year counts
+        i = argv.index('--year')
+        year = int(argv[i + 1])
+        del argv[i:i + 2]
+    args = [a for a in argv if a != '--genderize-io']
+    data = args[0] if args else ROOT / 'data/inspire_LA.json.gz'
     res = args[1] if len(args) > 1 else HERE / 'results.json'
-    main(data, res, 'genderize.io' if '--genderize-io' in sys.argv else 'offline')
+    main(data, res, 'genderize.io' if '--genderize-io' in argv else 'offline', year)

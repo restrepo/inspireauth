@@ -4,7 +4,10 @@ The page of the online dashboard (dashboard/index.html), its eight datasets and
 d3 are inlined, with a small stand-in for the dashboard's `dash` API, so the
 file opens in any browser with no network.
 
-Usage: python reproduce/standalone.py dash/ dashboard.html
+Usage: python reproduce/standalone.py dash/ dashboard.html [--edits dashboard/edits_2026.json]
+
+--edits: a JSON list of [old, new] text replacements applied to the finished page,
+each of which must occur exactly once (used for the board of the 2026 data).
 """
 import html
 import json
@@ -110,7 +113,7 @@ def script_json(obj):
     return json.dumps(obj, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 
 
-def main(dash_dir, out_path):
+def main(dash_dir, out_path, edits=None):
     page = (HERE / 'dashboard/index.html').read_text(encoding='utf-8')
     page = page.replace('<meta name="dash-one-writer">\n', '')
     data = {k: json.load(open(Path(dash_dir) / f'{k}.json', encoding='utf-8')) for k in DATASETS}
@@ -153,9 +156,19 @@ document.querySelectorAll('[data-sa-download]').forEach((a) => a.addEventListene
 </body>
 </html>
 """
+    for old, new in json.load(open(edits, encoding='utf-8')) if edits else []:
+        if doc.count(old) != 1:
+            raise SystemExit(f'edit must match exactly once ({doc.count(old)} matches): {old[:60]}')
+        doc = doc.replace(old, new)
     Path(out_path).write_text(doc, encoding='utf-8')
     print(f'wrote {out_path} ({len(doc.encode()) / 1e3:.0f} kB)')
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:3])
+    argv = sys.argv[1:]
+    edits = None
+    if '--edits' in argv:
+        i = argv.index('--edits')
+        edits = argv[i + 1]
+        del argv[i:i + 2]
+    main(*argv[:2], edits)
