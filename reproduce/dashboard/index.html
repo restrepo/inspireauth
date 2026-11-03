@@ -1,0 +1,563 @@
+<meta name="dash-one-writer">
+<style>
+#dash-root { --dash-gutter: var(--cds-pad-lg); }
+.rp { font-family: var(--font-anthropic-sans); display: flex; flex-direction: column; gap: var(--cds-gap-lg); max-width: 84rem; margin-inline: auto; }
+.rp h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.rp .lede { margin: 0; color: var(--color-fg-muted); max-width: 72ch; line-height: 1.5; }
+.rp .lede b, .rp .note b, .rp .r2line b { color: var(--color-fg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.rp .tabs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); }
+.rp .tab { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; padding: var(--cds-pad-sm) var(--cds-pad-md); font: inherit; color: var(--color-fg-muted); cursor: pointer; }
+.rp .tab:hover { color: var(--color-fg); }
+.rp .tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); }
+.rp .tab:focus-visible, .rp select:focus-visible, .rp input:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.rp section { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+.rp .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); gap: var(--cds-gap-md); }
+.rp .card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+.rp .card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; text-wrap: balance; }
+.rp .card h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.rp .note { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; line-height: 1.45; }
+.rp .r2line { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; }
+.rp .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); gap: var(--cds-gap-md); }
+.rp .tile { gap: var(--cds-gap-xs); }
+.rp .tile .lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.rp .tile .big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+.rp .scroll { overflow: auto; max-height: 30rem; }
+.rp table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.rp th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); position: sticky; top: 0; background: var(--color-panel); }
+.rp td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); }
+.rp th.n, .rp td.n { text-align: right; }
+.rp .chip { display: inline-block; padding: 0 var(--cds-pad-xs); border-radius: var(--cds-radius); border: 1px solid currentColor; white-space: nowrap; }
+.rp .chip.ok { color: var(--color-ok); }
+.rp .chip.warn { color: var(--color-warn); }
+.rp .chip.bad { color: var(--color-bad); }
+.rp .controls { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: center; font-size: var(--cds-font-size-caption); }
+.rp select, .rp input[type="search"] { font: inherit; color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-xs) var(--cds-pad-sm); max-width: 100%; }
+.rp .chart { position: relative; min-height: 16rem; }
+.rp .chart.tall { min-height: 22rem; }
+.rp .legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.rp .sw { display: inline-block; width: 0.75rem; height: 0.2rem; border-radius: 1px; vertical-align: middle; margin-right: var(--cds-pad-xs); background: var(--cds-chart-muted); }
+.rp svg text { fill: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+.rp svg .tick line { stroke: var(--cds-chart-grid); }
+.rp svg .domain { stroke: var(--cds-chart-axis); }
+.rp .rp-tip { position: absolute; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); border-radius: var(--cds-radius); box-shadow: var(--cds-shadow-popover); padding: var(--cds-pad-xs) var(--cds-pad-sm); font-size: var(--cds-font-size-caption); pointer-events: none; white-space: nowrap; z-index: 2; }
+.rp .rp-tip .h { color: var(--cds-text-secondary); }
+.rp .rp-fail { display: flex; align-items: center; justify-content: center; gap: var(--cds-gap-xs); min-height: inherit; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.rp .rp-fail::before { content: ""; width: 0.375rem; height: 0.375rem; border-radius: 50%; background: var(--color-bad); }
+.rp [data-dash-source-state="empty"] { color: transparent; }
+.rp [data-dash-source-state="refreshing"] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+.rp code, .rp pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--cds-font-size-caption); }
+.rp pre { margin: 0; padding: var(--cds-pad-sm); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); overflow-x: auto; }
+.rp ul { margin: 0; padding-left: 1.2rem; display: flex; flex-direction: column; gap: var(--cds-gap-xs); line-height: 1.5; }
+</style>
+
+<div class="rp">
+  <header class="card" style="background: none; border: 0; padding: 0;">
+    <h1 id="title">HECAP Latin America, reproduced</h1>
+    <p class="lede">Recomputed from <code>data/inspire_LA.json</code> (inspireauth, Zenodo 10.5281/zenodo.23868569) and compared with the revised JDIS manuscript: <b data-draw="value" data-source="match_summary" data-field="matched" data-where="table=All tables" data-fmt="int">—</b> of <b data-draw="value" data-source="match_summary" data-field="cells" data-where="table=All tables" data-fmt="int">—</b> table cells agree with the printed values, and <b data-draw="value" data-source="match_summary" data-field="matched" data-where="table=R² of Figs. 15–20" data-fmt="int">—</b> of <b data-draw="value" data-source="match_summary" data-field="cells" data-where="table=R² of Figs. 15–20" data-fmt="int">—</b> R² values of the correlation figures.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" data-tab="overview" aria-selected="true">Overview</button>
+    <button class="tab" role="tab" data-tab="tables" aria-selected="false">All table cells</button>
+    <button class="tab" role="tab" data-tab="correlations" aria-selected="false">Correlations</button>
+    <button class="tab" role="tab" data-tab="trends" aria-selected="false">Regional trends</button>
+    <button class="tab" role="tab" data-tab="collaborations" aria-selected="false">Collaborations</button>
+    <button class="tab" role="tab" data-tab="gender" aria-selected="false">Gender</button>
+    <button class="tab" role="tab" data-tab="method" aria-selected="false">Method</button>
+  </nav>
+
+  <section id="overview" role="tabpanel">
+    <div class="tiles">
+      <div class="card tile"><span class="lbl">Distinct authors</span><span class="big" data-draw="value" data-source="scalars" data-field="ours" data-where="id=authors" data-fmt="int">—</span><span class="note">Paper footnote: <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=authors" data-fmt="int">—</b></span></div>
+      <div class="card tile"><span class="lbl">Distinct papers</span><span class="big" data-draw="value" data-source="scalars" data-field="ours" data-where="id=papers" data-fmt="int">—</span><span class="note">Ten or fewer authors, up to 2022</span></div>
+      <div class="card tile"><span class="lbl">Authors with a declared rank</span><span class="big" data-draw="value" data-source="scalars" data-field="ours" data-where="id=rank_authors" data-fmt="int">—</span><span class="note">Paper footnote: <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=rank_authors" data-fmt="int">—</b></span></div>
+      <div class="card tile"><span class="lbl">Authors with inferred gender</span><span class="big" data-draw="value" data-source="scalars" data-field="ours" data-where="id=gender_known" data-fmt="int">—</span><span class="note">Paper, Sect. 2.5: about <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=gender_known" data-fmt="int">—</b></span></div>
+    </div>
+
+    <div class="grid">
+      <div class="card" id="agreement">
+        <h2>Agreement by table</h2>
+        <p class="note">A cell agrees when the recomputed value equals the printed one after the paper's rounding. Some values below 1 are truncated in the paper (0.456 printed as 0.4); they count as agreeing.</p>
+        <div class="scroll">
+          <table data-source="match_summary" data-row-key="table">
+            <thead><tr><th data-field="table">Table</th><th class="n" data-field="cells">Cells</th><th class="n" data-field="matched">Agree</th><th class="n" data-field="differs">Differ</th></tr></thead>
+            <tbody data-draw="summary-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="r2">
+        <h2>R² of the correlation figures</h2>
+        <p class="note">Linear fits of authors, publications and citations per million inhabitants against R&amp;D (average % of GDP) and HDI, Figs. 15–20.</p>
+        <div class="scroll">
+          <table data-source="scalars" data-row-key="id">
+            <thead><tr><th data-field="label">Fit</th><th class="n" data-field="paper">Paper</th><th class="n" data-field="ours">Recomputed</th></tr></thead>
+            <tbody data-draw="r2-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="differences">
+      <h2>Cells that are not identical</h2>
+      <p class="note">Every cell whose recomputed value is not exactly the printed number. Rows marked Differs are real disagreements; Rounded and Truncated come from how the paper prints numbers.</p>
+      <div class="scroll">
+        <table data-source="table_cells" data-row-key="id">
+          <thead><tr><th data-field="table">Table</th><th data-field="country">Country</th><th data-field="column">Column</th><th class="n" data-field="paper">Paper</th><th class="n" data-field="ours">Recomputed</th><th data-field="status">Status</th></tr></thead>
+          <tbody data-draw="diff-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="tables" role="tabpanel" hidden>
+    <div class="card">
+      <h2>Every table cell, paper against recomputed</h2>
+      <p class="note">Tables 5, 6, 7, 10, 11 and 12 of the manuscript. Tables 1 and 2 are inputs, Tables 3–4 come from INSPIRE-HEP web queries of February 2024, and Table 9 from OpenAlex.</p>
+      <div class="controls">
+        <label for="rp-table">Table</label>
+        <select id="rp-table" data-draw="table-select" data-source="table_cells"></select>
+        <input id="rp-search" type="search" placeholder="Filter by country or column" aria-label="Filter rows">
+        <label><input id="rp-only" type="checkbox"> Only cells that are not identical</label>
+      </div>
+      <div class="scroll">
+        <table data-source="table_cells" data-row-key="id">
+          <thead><tr><th data-field="country">Country</th><th data-field="column">Column</th><th class="n" data-field="paper">Paper</th><th class="n" data-field="ours">Recomputed</th><th data-field="status">Status</th></tr></thead>
+          <tbody data-draw="cells-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="correlations" role="tabpanel" hidden>
+    <p class="note">Each point is a country; the line is the least-squares fit recomputed on this page from the country metrics. The Dominican Republic has no R&amp;D data and is left out of the R&amp;D fits, as in the paper.</p>
+    <div class="grid">
+      <div class="card"><h2>Authors per million inhabitants vs R&amp;D</h2><p class="r2line">Fig. 15 · R² <b data-draw="value" data-source="fits" data-field="r2" data-where="fit=authors_pmi|rd_avg" data-fmt="r2">—</b> here, <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=r2_authors_pmi_vs_rd" data-fmt="r2">—</b> in the paper</p><div class="chart" data-draw="scatter" data-source="country_metrics fits" data-metric="authors_pmi" data-x="rd_avg"></div><p class="note">x: R&amp;D, average % of GDP 1996–2021</p></div>
+      <div class="card"><h2>Publications per million inhabitants vs R&amp;D</h2><p class="r2line">Fig. 16 · R² <b data-draw="value" data-source="fits" data-field="r2" data-where="fit=papers_pmi|rd_avg" data-fmt="r2">—</b> here, <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=r2_papers_pmi_vs_rd" data-fmt="r2">—</b> in the paper</p><div class="chart" data-draw="scatter" data-source="country_metrics fits" data-metric="papers_pmi" data-x="rd_avg"></div><p class="note">x: R&amp;D, average % of GDP 1996–2021</p></div>
+      <div class="card"><h2>Citations per million inhabitants vs R&amp;D</h2><p class="r2line">Fig. 17 · R² <b data-draw="value" data-source="fits" data-field="r2" data-where="fit=citations_pmi|rd_avg" data-fmt="r2">—</b> here, <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=r2_citations_pmi_vs_rd" data-fmt="r2">—</b> in the paper</p><div class="chart" data-draw="scatter" data-source="country_metrics fits" data-metric="citations_pmi" data-x="rd_avg"></div><p class="note">x: R&amp;D, average % of GDP 1996–2021</p></div>
+      <div class="card"><h2>Authors per million inhabitants vs HDI</h2><p class="r2line">Fig. 18 · R² <b data-draw="value" data-source="fits" data-field="r2" data-where="fit=authors_pmi|hdi_avg" data-fmt="r2">—</b> here, <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=r2_authors_pmi_vs_hdi" data-fmt="r2">—</b> in the paper</p><div class="chart" data-draw="scatter" data-source="country_metrics fits" data-metric="authors_pmi" data-x="hdi_avg"></div><p class="note">x: HDI, average 1990–2021</p></div>
+      <div class="card"><h2>Publications per million inhabitants vs HDI</h2><p class="r2line">Fig. 19 · R² <b data-draw="value" data-source="fits" data-field="r2" data-where="fit=papers_pmi|hdi_avg" data-fmt="r2">—</b> here, <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=r2_papers_pmi_vs_hdi" data-fmt="r2">—</b> in the paper</p><div class="chart" data-draw="scatter" data-source="country_metrics fits" data-metric="papers_pmi" data-x="hdi_avg"></div><p class="note">x: HDI, average 1990–2021</p></div>
+      <div class="card"><h2>Citations per million inhabitants vs HDI</h2><p class="r2line">Fig. 20 · R² <b data-draw="value" data-source="fits" data-field="r2" data-where="fit=citations_pmi|hdi_avg" data-fmt="r2">—</b> here, <b data-draw="value" data-source="scalars" data-field="paper" data-where="id=r2_citations_pmi_vs_hdi" data-fmt="r2">—</b> in the paper</p><div class="chart" data-draw="scatter" data-source="country_metrics fits" data-metric="citations_pmi" data-x="hdi_avg"></div><p class="note">x: HDI, average 1990–2021</p></div>
+    </div>
+  </section>
+
+  <section id="trends" role="tabpanel" hidden>
+    <div class="card" id="share">
+      <h2>Latin American share of the global output</h2>
+      <p class="note">Figs. 1 and 2: Latin American papers (counted once for the region) and their citations, as a percentage of all citable INSPIRE-HEP papers with ten or fewer authors published in the same year (Tables 3–4).</p>
+      <div class="legend"><span><i class="sw" data-i="0"></i>Publications</span><span><i class="sw" data-i="1"></i>Citations</span></div>
+      <div class="chart tall" data-draw="share-chart" data-source="la_share"></div>
+    </div>
+    <div class="card" id="per-year">
+      <h2>Articles per year of one country</h2>
+      <p class="note">Figs. 7, 8 and 25–36. Articles with at least one author affiliated in the country, by publication year.</p>
+      <div class="controls"><label for="rp-country">Country</label><select id="rp-country" data-draw="country-select" data-source="papers_per_year"></select></div>
+      <div class="chart" data-draw="year-chart" data-source="papers_per_year"></div>
+    </div>
+  </section>
+
+  <section id="collaborations" role="tabpanel" hidden>
+    <div class="card" id="collab-la">
+      <h2>Collaborations between Latin American countries</h2>
+      <p class="note">Fig. 22. Row country's articles co-authored with the column country, in %. The paper's examples: Bolivia–Brazil 16.7%, Paraguay–Argentina 100%.</p>
+      <div class="chart tall" data-draw="heatmap" data-source="collab" data-scope="Latin America"></div>
+    </div>
+    <div class="card" id="collab-world">
+      <h2>Collaborations with other countries</h2>
+      <p class="note">Fig. 23. Same indicator for Spain, Portugal, Germany, Italy, France, the United Kingdom, the Russian Federation, Belgium, Canada and the United States.</p>
+      <div class="chart tall" data-draw="heatmap" data-source="collab" data-scope="World"></div>
+    </div>
+  </section>
+
+  <section id="gender" role="tabpanel" hidden>
+    <div class="card" id="female-year">
+      <h2>Female fraction of authors per year</h2>
+      <p class="note">Fig. 21. Distinct authors who published in each year with a gender inferred at probability 0.9 or more; the band is the 95% margin of error.</p>
+      <div class="chart tall" data-draw="gender-chart" data-source="gender_year"></div>
+    </div>
+    <div class="card" id="female-rank">
+      <h2>Female fraction by rank</h2>
+      <p class="note">Table 8. Authors holding a declared rank in a year in which they published. The recomputed counts are a few percent below the paper's; the fractions agree within their margins.</p>
+      <div class="scroll">
+        <table data-source="gender_rank" data-row-key="group">
+          <thead><tr><th data-field="group">Rank</th><th class="n" data-field="paper_n">Authors, paper</th><th class="n" data-field="ours_n">Authors, recomputed</th><th class="n" data-field="paper_pct">Female %, paper</th><th class="n" data-field="ours_pct">Female %, recomputed</th></tr></thead>
+          <tbody data-draw="gender-rank-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="method" role="tabpanel" hidden>
+    <div class="grid">
+      <div class="card">
+        <h2>Counting rules</h2>
+        <p class="note">Taken from the notebooks in <code>INSPIREHEP_new_nbs/</code> that produced the paper's figures.</p>
+        <ul class="note">
+          <li>A country's papers are the papers of its author records whose affiliation is one of the country's institutions, each counted once (by INSPIRE record id).</li>
+          <li>Authors are the distinct INSPIRE BAIs among the country's records; an author is active with a paper from 2017 or later.</li>
+          <li>Citations are summed over the country's papers; the h-index is computed on them.</li>
+          <li>Table 6 counts distinct declared positions; Table 7 counts distinct paper, author and position combinations.</li>
+          <li>Per million inhabitants uses the UN populations of Table 1.</li>
+          <li>Collaboration: share of the row country's papers that also belong to the column country.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Run it yourself</h2>
+        <p class="note">The scripts are in <code>reproduce/</code> of the inspireauth repository. They need only the Python standard library and run in a few seconds.</p>
+<pre>python reproduce/reproduce.py data/inspire_LA.json results.json
+python reproduce/compare.py ../jdis-version.tex results.json page_data.json
+python reproduce/export_dashboard.py page_data.json dash/</pre>
+        <p class="note">Not recomputed here: the global output (Tables 3–4, INSPIRE-HEP queries), the OpenAlex comparison (Sect. 8), and the per-country rank mobility plots (Figs. 4 and 37–39).</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const rp = window.rp = {
+  int: d3.format(','),
+  num: (v) => v == null || v === '' ? '—' : Number.isInteger(+v) ? d3.format(',')(+v) : d3.format(',.2~f')(+v),
+  r2: d3.format('.3f'),
+  ui: { table: null, q: '', only: false, country: 'Colombia' },
+  statusWord: { exact: ['Same', 'ok'], rounded: ['Rounded', 'ok'], truncated: ['Truncated in paper', 'warn'], differs: ['Differs', 'bad'] },
+};
+rp.ready = (el, ids) => {
+  const st = ids.map((id) => dash.data(id).status);
+  if (st.every((s) => s === 'ok')) { el.classList.remove('dash-skeleton'); return true; }
+  el.replaceChildren();
+  if (st.some((s) => s === 'error' || s === 'connect' || s === 'missing' || s === 'declined')) {
+    el.classList.remove('dash-skeleton');
+    const f = document.createElement('div'); f.className = 'rp-fail'; f.textContent = 'Failed to load'; el.appendChild(f);
+  } else el.classList.add('dash-skeleton');
+  return false;
+};
+rp.tip = (el) => {
+  const t = document.createElement('div'); t.className = 'rp-tip'; t.hidden = true; el.appendChild(t);
+  return {
+    show(lines, x, y) {
+      t.replaceChildren(...lines.map((l, i) => { const d = document.createElement('div'); d.textContent = l; if (i === 0) d.className = 'h'; return d; }));
+      t.hidden = false;
+      t.style.left = Math.max(0, Math.min(x + 12, el.clientWidth - t.offsetWidth)) + 'px';
+      t.style.top = Math.max(0, y - t.offsetHeight - 8) + 'px';
+    },
+    hide() { t.hidden = true; },
+  };
+};
+rp.textW = (svg, strs) => {
+  const g = svg.append('g');
+  const w = d3.max(strs, (s) => g.append('text').text(s).node().getComputedTextLength()) || 0;
+  g.remove();
+  return w;
+};
+rp.cell = (tr, text, cls) => { const td = document.createElement('td'); td.textContent = text; if (cls) td.className = cls; tr.appendChild(td); return td; };
+rp.chip = (tr, status) => {
+  const [w, c] = rp.statusWord[status] || [status, ''];
+  const td = document.createElement('td'); const s = document.createElement('span'); s.className = 'chip ' + c; s.textContent = w; td.appendChild(s); tr.appendChild(td);
+};
+rp.row = (tbody, key) => { const tr = document.createElement('tr'); tr.dataset.key = key; tbody.appendChild(tr); return tr; };
+rp.axes = (svg, x, y, W, H, ml, mb, xfmt, yfmt) => {
+  svg.append('g').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - ml - 8)).tickFormat(yfmt))
+    .attr('font-size', null).attr('font-family', null).call((g) => g.select('.domain').remove());
+  svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(Math.max(2, Math.floor((W - ml) / 70))).tickFormat(xfmt))
+    .attr('font-size', null).attr('font-family', null);
+};
+
+dash.calc('match_summary', {
+  inputs: ['table_cells', 'scalars'],
+  title: 'Agreement with the paper',
+  description: 'Cells per table that equal the printed value up to its rounding, and R² values within 0.005.',
+  fn: (table_cells, scalars) => {
+    const rows = [];
+    for (const c of table_cells) {
+      let r = rows.find((x) => x.table === c.table);
+      if (!r) rows.push(r = { table: c.table, cells: 0, matched: 0, differs: 0 });
+      r.cells += 1; if (c.status === 'differs') r.differs += 1; else r.matched += 1;
+    }
+    const all = { table: 'All tables', cells: 0, matched: 0, differs: 0 };
+    for (const r of rows) { all.cells += r.cells; all.matched += r.matched; all.differs += r.differs; }
+    const r2 = scalars.filter((s) => s.group === 'R²');
+    const ok = r2.filter((s) => Math.abs(s.paper - s.ours) <= 0.0051).length;
+    return [...rows, all, { table: 'R² of Figs. 15–20', cells: r2.length, matched: ok, differs: r2.length - ok }];
+  },
+});
+
+dash.calc('fits', {
+  inputs: ['country_metrics'],
+  title: 'Linear fits and R²',
+  description: 'Least-squares line of each metric per million inhabitants against R&D or HDI, over the countries with data.',
+  fn: (country_metrics) => {
+    const out = [];
+    for (const y of ['authors_pmi', 'papers_pmi', 'citations_pmi']) {
+      for (const x of ['rd_avg', 'hdi_avg']) {
+        const p = country_metrics.filter((r) => r[x] != null && r[x] !== '').map((r) => [+r[x], +r[y]]);
+        const n = p.length, mx = p.reduce((a, q) => a + q[0], 0) / n, my = p.reduce((a, q) => a + q[1], 0) / n;
+        let sxx = 0, sxy = 0, syy = 0, res = 0;
+        for (const [a, b] of p) { sxx += (a - mx) ** 2; sxy += (a - mx) * (b - my); syy += (b - my) ** 2; }
+        const slope = sxy / sxx, intercept = my - slope * mx;
+        for (const [a, b] of p) res += (b - intercept - slope * a) ** 2;
+        out.push({ fit: `${y}|${x}`, metric: y, x, n, slope, intercept, r2: 1 - res / syy });
+      }
+    }
+    return out;
+  },
+});
+
+dash.calc('la_share', {
+  inputs: ['world_share'],
+  title: 'Latin American share per year',
+  description: 'Latin American papers and citations as a percentage of the global output of the same year.',
+  fn: (world_share) => world_share.map((r) => ({
+    year: +r.year,
+    pct_papers: 100 * r.la_papers / r.world_papers,
+    pct_citations: r.world_citations ? 100 * r.la_citations / r.world_citations : null,
+  })),
+});
+
+// tabs
+const showTab = (name) => {
+  document.querySelectorAll('.rp [role="tabpanel"]').forEach((s) => { s.hidden = s.id !== name; });
+  document.querySelectorAll('.rp .tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === name)));
+};
+document.querySelectorAll('.rp .tab').forEach((b) => b.addEventListener('click', () => { showTab(b.dataset.tab); dash.setLink(b.dataset.tab); }));
+const startTab = location.hash.slice(1);
+if (startTab && document.querySelector(`.rp .tab[data-tab="${CSS.escape(startTab)}"]`)) showTab(startTab);
+
+document.querySelectorAll('#rp-search').forEach((i) => i.addEventListener('input', () => { rp.ui.q = i.value.trim().toLowerCase(); dash.draw('cells-body'); }));
+document.querySelectorAll('#rp-only').forEach((i) => i.addEventListener('change', () => { rp.ui.only = i.checked; dash.draw('cells-body'); }));
+document.querySelectorAll('.rp .sw').forEach((s) => { s.style.background = dash.colors[+s.dataset.i]; });
+
+dash.draw('value', (el) => {
+  const d = dash.data(el.dataset.source);
+  const [k, ...v] = (el.dataset.where || '').split('=');
+  const r = d.status === 'ok' ? d.data.find((row) => String(row[k]) === v.join('=')) : null;
+  const val = r ? r[el.dataset.field] : null;
+  el.textContent = val == null || val === '' ? '—' : el.dataset.fmt === 'r2' ? rp.r2(+val) : el.dataset.fmt === 'int' ? rp.int(+val) : rp.num(val);
+});
+
+dash.draw('summary-body', (tb) => {
+  tb.replaceChildren();
+  const d = dash.data('match_summary'); if (d.status !== 'ok') return;
+  for (const r of d.data) {
+    const tr = rp.row(tb, r.table);
+    rp.cell(tr, r.table); rp.cell(tr, rp.int(r.cells), 'n'); rp.cell(tr, rp.int(r.matched), 'n');
+    rp.cell(tr, rp.int(r.differs), 'n').style.color = r.differs ? 'var(--color-bad)' : '';
+    if (r.table === 'All tables') tr.style.fontWeight = '600';
+  }
+});
+
+dash.draw('r2-body', (tb) => {
+  tb.replaceChildren();
+  const d = dash.data('scalars'); if (d.status !== 'ok') return;
+  for (const r of d.data.filter((s) => s.group === 'R²')) {
+    const tr = rp.row(tb, r.id);
+    rp.cell(tr, r.label); rp.cell(tr, d3.format('.2f')(r.paper), 'n'); rp.cell(tr, rp.r2(r.ours), 'n');
+  }
+});
+
+dash.draw('diff-body', (tb) => {
+  tb.replaceChildren();
+  const d = dash.data('table_cells'); if (d.status !== 'ok') return;
+  const order = { differs: 0, truncated: 1, rounded: 2 };
+  const rows = d.data.filter((c) => c.status !== 'exact').sort((a, b) => order[a.status] - order[b.status]);
+  for (const c of rows) {
+    const tr = rp.row(tb, c.id);
+    rp.cell(tr, c.table); rp.cell(tr, c.country); rp.cell(tr, c.column);
+    rp.cell(tr, rp.num(c.paper), 'n'); rp.cell(tr, rp.num(c.ours), 'n'); rp.chip(tr, c.status);
+  }
+});
+
+dash.draw('table-select', (sel) => {
+  const d = dash.data('table_cells');
+  const tables = d.status === 'ok' ? [...new Set(d.data.map((c) => c.table))] : [];
+  sel.replaceChildren(...tables.map((t) => new Option(t, t)));
+  if (!rp.ui.table || !tables.includes(rp.ui.table)) rp.ui.table = tables[0] || null;
+  sel.value = rp.ui.table || '';
+  sel.onchange = () => { rp.ui.table = sel.value; dash.draw('cells-body'); };
+});
+
+dash.draw('cells-body', (tb) => {
+  tb.replaceChildren();
+  const d = dash.data('table_cells'); if (d.status !== 'ok') return;
+  const table = rp.ui.table || (d.data[0] && d.data[0].table);
+  for (const c of d.data) {
+    if (c.table !== table) continue;
+    if (rp.ui.only && c.status === 'exact') continue;
+    if (rp.ui.q && !(`${c.country} ${c.column}`.toLowerCase().includes(rp.ui.q))) continue;
+    const tr = rp.row(tb, c.id);
+    rp.cell(tr, c.country); rp.cell(tr, c.column);
+    rp.cell(tr, rp.num(c.paper), 'n'); rp.cell(tr, rp.num(c.ours), 'n'); rp.chip(tr, c.status);
+  }
+});
+
+dash.draw('gender-rank-body', (tb) => {
+  tb.replaceChildren();
+  const d = dash.data('gender_rank'); if (d.status !== 'ok') return;
+  const pm = (p, c) => `${d3.format('.1f')(p)} ± ${d3.format('.1f')(c)}`;
+  for (const r of d.data) {
+    const tr = rp.row(tb, r.group);
+    rp.cell(tr, r.group); rp.cell(tr, rp.int(r.paper_n), 'n'); rp.cell(tr, rp.int(r.ours_n), 'n');
+    rp.cell(tr, pm(r.paper_pct, r.paper_ci), 'n'); rp.cell(tr, pm(r.ours_pct, r.ours_ci), 'n');
+  }
+});
+
+dash.draw('scatter', (el) => {
+  if (!rp.ready(el, ['country_metrics', 'fits'])) return;
+  const xk = el.dataset.x, yk = el.dataset.metric;
+  const rows = dash.data('country_metrics').data.filter((r) => r[xk] != null && r[xk] !== '');
+  const fit = dash.data('fits').data.find((f) => f.fit === `${yk}|${xk}`);
+  const W = Math.max(280, el.clientWidth), H = 256, mb = 24;
+  el.replaceChildren();
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => +r[yk]) * 1.05], [H - mb, 10]).nice();
+  const yfmt = d3.format('~s');
+  const ml = rp.textW(svg, y.ticks(5).map(yfmt)) + 10;
+  const x = d3.scaleLinear(d3.extent(rows, (r) => +r[xk]), [ml + 6, W - 34]).nice();
+  rp.axes(svg, x, y, W, H, ml, mb, xk === 'hdi_avg' ? d3.format('.2f') : d3.format('.1f'), yfmt);
+  if (fit) {
+    const [x0, x1] = x.domain();
+    const clampY = (v) => Math.max(y.domain()[0], Math.min(y.domain()[1], v));
+    svg.append('line').attr('x1', x(x0)).attr('x2', x(x1))
+      .attr('y1', y(clampY(fit.intercept + fit.slope * x0))).attr('y2', y(clampY(fit.intercept + fit.slope * x1)))
+      .attr('stroke', dash.colors[1]).attr('stroke-width', 2).attr('stroke-linecap', 'round').attr('stroke-dasharray', '6 4');
+  }
+  const pts = svg.append('g');
+  pts.selectAll('circle').data(rows).join('circle').attr('cx', (r) => x(+r[xk])).attr('cy', (r) => y(+r[yk])).attr('r', 4)
+    .attr('fill', dash.colors[0]);
+  pts.selectAll('text').data(rows).join('text').attr('x', (r) => x(+r[xk]) + 6).attr('y', (r) => y(+r[yk]) + 4).text((r) => r.code);
+  const tip = rp.tip(el);
+  const unit = { authors_pmi: 'authors', papers_pmi: 'publications', citations_pmi: 'citations' }[yk];
+  svg.on('pointermove', (ev) => {
+    const [px, py] = d3.pointer(ev, el);
+    const r = d3.least(rows, (q) => (x(+q[xk]) - px) ** 2 + (y(+q[yk]) - py) ** 2);
+    if (!r) return;
+    tip.show([r.country, `${xk === 'hdi_avg' ? 'HDI' : 'R&D, % of GDP'}: ${r[xk]}`, `${rp.num(r[yk])} ${unit} per million`], x(+r[xk]), y(+r[yk]));
+  }).on('pointerleave', () => tip.hide());
+});
+
+dash.draw('share-chart', (el) => {
+  if (!rp.ready(el, ['la_share'])) return;
+  const rows = dash.data('la_share').data;
+  const W = Math.max(300, el.clientWidth), H = 330, mb = 24;
+  el.replaceChildren();
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => Math.max(r.pct_papers, r.pct_citations || 0))], [H - mb, 10]).nice();
+  const yfmt = (v) => `${v}%`;
+  const ml = rp.textW(svg, y.ticks(5).map(yfmt)) + 10;
+  const x = d3.scaleLinear(d3.extent(rows, (r) => r.year), [ml + 4, W - 10]);
+  rp.axes(svg, x, y, W, H, ml, mb, d3.format('d'), yfmt);
+  ['pct_papers', 'pct_citations'].forEach((k, i) => {
+    svg.append('path').datum(rows.filter((r) => r[k] != null))
+      .attr('d', d3.line((r) => x(r.year), (r) => y(r[k])))
+      .attr('fill', 'none').attr('stroke', dash.colors[i]).attr('stroke-width', 2).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+  });
+  const rule = svg.append('line').attr('y1', 10).attr('y2', H - mb).attr('stroke', 'var(--cds-chart-reference)').attr('visibility', 'hidden');
+  const tip = rp.tip(el);
+  svg.on('pointermove', (ev) => {
+    const [px] = d3.pointer(ev, el);
+    const r = d3.least(rows, (q) => Math.abs(x(q.year) - px)); if (!r) return;
+    rule.attr('x1', x(r.year)).attr('x2', x(r.year)).attr('visibility', 'visible');
+    tip.show([String(r.year), `Publications ${d3.format('.2f')(r.pct_papers)}%`, `Citations ${r.pct_citations == null ? '—' : d3.format('.2f')(r.pct_citations) + '%'}`], x(r.year), y(r.pct_papers));
+  }).on('pointerleave', () => { tip.hide(); rule.attr('visibility', 'hidden'); });
+});
+
+dash.draw('country-select', (sel) => {
+  const d = dash.data('papers_per_year');
+  const cs = d.status === 'ok' ? [...new Set(d.data.map((r) => r.country))] : [];
+  sel.replaceChildren(...cs.map((c) => new Option(c, c)));
+  if (!cs.includes(rp.ui.country)) rp.ui.country = cs[0] || null;
+  sel.value = rp.ui.country || '';
+  sel.onchange = () => { rp.ui.country = sel.value; dash.draw('year-chart'); };
+});
+
+dash.draw('year-chart', (el) => {
+  if (!rp.ready(el, ['papers_per_year'])) return;
+  const rows = dash.data('papers_per_year').data.filter((r) => r.country === rp.ui.country).map((r) => ({ year: +r.year, papers: +r.papers }));
+  el.replaceChildren();
+  if (!rows.length) return;
+  const years = d3.range(d3.min(rows, (r) => r.year), d3.max(rows, (r) => r.year) + 1);
+  const by = new Map(rows.map((r) => [r.year, r.papers]));
+  const W = Math.max(300, el.clientWidth), H = 256, mb = 24;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => r.papers)], [H - mb, 10]).nice();
+  const ml = rp.textW(svg, y.ticks(5).map(d3.format(','))) + 10;
+  const x = d3.scaleBand(years, [ml + 4, W - 6]).padding(0.15);
+  svg.append('g').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - ml - 8)).tickFormat(d3.format(',')))
+    .attr('font-size', null).attr('font-family', null).call((g) => g.select('.domain').remove());
+  const step = Math.max(1, Math.ceil(years.length / Math.max(2, Math.floor((W - ml) / 48))));
+  svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).tickValues(years.filter((yy, i) => i % step === 0)).tickFormat(d3.format('d')))
+    .attr('font-size', null).attr('font-family', null);
+  svg.append('g').selectAll('rect').data(years).join('rect')
+    .attr('x', (yy) => x(yy)).attr('width', Math.min(32, x.bandwidth())).attr('y', (yy) => y(by.get(yy) || 0))
+    .attr('height', (yy) => y(0) - y(by.get(yy) || 0)).attr('rx', Math.min(2, x.bandwidth() / 2)).attr('fill', dash.colors[0]);
+  const tip = rp.tip(el);
+  svg.on('pointermove', (ev) => {
+    const [px] = d3.pointer(ev, el);
+    const yy = d3.least(years, (q) => Math.abs(x(q) + x.bandwidth() / 2 - px)); if (yy == null) return;
+    tip.show([String(yy), `${rp.int(by.get(yy) || 0)} articles`], x(yy), y(by.get(yy) || 0));
+  }).on('pointerleave', () => tip.hide());
+});
+
+dash.draw('heatmap', (el) => {
+  if (!rp.ready(el, ['collab'])) return;
+  const scope = el.dataset.scope;
+  const rows = dash.data('collab').data.filter((r) => r.scope === scope);
+  const rnames = [...new Set(rows.map((r) => r.row))], cnames = [...new Set(rows.map((r) => r.col))];
+  const short = { 'Dominican Republic': 'Dom. Rep.', 'Costa Rica': 'Costa Rica', 'El Salvador': 'El Salvador', 'United Kingdom': 'UK', 'United States': 'USA', 'Russian Federation': 'Russia' };
+  const W = Math.max(300, el.clientWidth);
+  el.replaceChildren();
+  const svg = d3.select(el).append('svg').attr('width', '100%');
+  const ml = rp.textW(svg, rnames) + 8;
+  const top = rp.textW(svg, cnames.map((c) => short[c] || c)) * 0.75 + 12;
+  const cw = Math.min(44, (W - ml - 4) / cnames.length), ch = Math.max(16, Math.min(28, cw * 0.8));
+  const H = top + ch * rnames.length + 4;
+  svg.attr('viewBox', `0 0 ${W} ${H}`);
+  const op = d3.scaleSqrt([0, 100], [0.04, 1]);
+  const g = svg.append('g');
+  g.selectAll('rect').data(rows).join('rect')
+    .attr('x', (r) => ml + cnames.indexOf(r.col) * cw).attr('y', (r) => top + rnames.indexOf(r.row) * ch)
+    .attr('width', cw - 1).attr('height', ch - 1).attr('rx', 2)
+    .attr('fill', (r) => (r.row === r.col ? 'var(--cds-chart-muted)' : dash.colors[0]))
+    .attr('fill-opacity', (r) => (r.row === r.col ? 0.3 : op(+r.pct)));
+  if (cw >= 30) {
+    g.selectAll('text').data(rows.filter((r) => r.row !== r.col && +r.pct > 0)).join('text')
+      .attr('x', (r) => ml + cnames.indexOf(r.col) * cw + cw / 2).attr('y', (r) => top + rnames.indexOf(r.row) * ch + ch / 2 + 4)
+      .attr('text-anchor', 'middle').style('fill', (r) => (op(+r.pct) > 0.6 ? 'var(--color-bg)' : 'var(--color-fg)'))
+      .text((r) => d3.format('.1~f')(+r.pct));
+  }
+  svg.append('g').selectAll('text').data(rnames).join('text').attr('x', ml - 6).attr('y', (n, i) => top + i * ch + ch / 2 + 4).attr('text-anchor', 'end').text((n) => n);
+  svg.append('g').selectAll('text').data(cnames).join('text')
+    .attr('transform', (n, i) => `translate(${ml + i * cw + cw / 2},${top - 6}) rotate(-50)`).text((n) => short[n] || n);
+  const tip = rp.tip(el);
+  svg.on('pointermove', (ev) => {
+    const [px, py] = d3.pointer(ev, el);
+    const ci = Math.floor((px - ml) / cw), ri = Math.floor((py - top) / ch);
+    if (ci < 0 || ri < 0 || ci >= cnames.length || ri >= rnames.length) { tip.hide(); return; }
+    const r = rows.find((q) => q.row === rnames[ri] && q.col === cnames[ci]); if (!r) return;
+    tip.show([`${r.row} with ${r.col}`, `${d3.format('.1f')(+r.pct)}% of ${r.row}'s articles`], ml + ci * cw + cw / 2, top + ri * ch);
+  }).on('pointerleave', () => tip.hide());
+});
+
+dash.draw('gender-chart', (el) => {
+  if (!rp.ready(el, ['gender_year'])) return;
+  const rows = dash.data('gender_year').data.map((r) => ({ year: +r.year, p: +r.female_pct, ci: +r.ci95, n: +r.authors }));
+  const W = Math.max(300, el.clientWidth), H = 300, mb = 24;
+  el.replaceChildren();
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(rows, (r) => r.p + r.ci)], [H - mb, 10]).nice();
+  const yfmt = (v) => `${v}%`;
+  const ml = rp.textW(svg, y.ticks(5).map(yfmt)) + 10;
+  const x = d3.scaleLinear(d3.extent(rows, (r) => r.year), [ml + 4, W - 10]);
+  rp.axes(svg, x, y, W, H, ml, mb, d3.format('d'), yfmt);
+  svg.append('path').datum(rows).attr('d', d3.area((r) => x(r.year), (r) => y(Math.max(0, r.p - r.ci)), (r) => y(r.p + r.ci)))
+    .attr('fill', dash.colors[0]).attr('fill-opacity', 0.16);
+  svg.append('path').datum(rows).attr('d', d3.line((r) => x(r.year), (r) => y(r.p)))
+    .attr('fill', 'none').attr('stroke', dash.colors[0]).attr('stroke-width', 2).attr('stroke-linejoin', 'round').attr('stroke-linecap', 'round');
+  const dot = svg.append('circle').attr('r', 4).attr('fill', dash.colors[0]).attr('visibility', 'hidden');
+  const tip = rp.tip(el);
+  svg.on('pointermove', (ev) => {
+    const [px] = d3.pointer(ev, el);
+    const r = d3.least(rows, (q) => Math.abs(x(q.year) - px)); if (!r) return;
+    dot.attr('cx', x(r.year)).attr('cy', y(r.p)).attr('visibility', 'visible');
+    tip.show([String(r.year), `Female ${d3.format('.1f')(r.p)}% ± ${d3.format('.1f')(r.ci)}`, `${rp.int(r.n)} authors with gender`], x(r.year), y(r.p));
+  }).on('pointerleave', () => { tip.hide(); dot.attr('visibility', 'hidden'); });
+});
+</script>
