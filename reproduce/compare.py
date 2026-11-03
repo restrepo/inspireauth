@@ -1,6 +1,11 @@
 """Compare reproduce.py results with the tables of the manuscript.
 
 Usage: python reproduce/compare.py jdis-version.tex results.json page_data.json
+       python reproduce/compare.py reproduce/paper/tables.json results.json page_data.json
+       python reproduce/compare.py --dump jdis-version.tex reproduce/paper/tables.json
+
+The printed tables can come from the manuscript (.tex) or from tables.json, the
+same rows extracted with --dump, so the comparison runs without the manuscript.
 """
 import json
 import re
@@ -27,6 +32,18 @@ def tex_table(tex, label):
     return rows
 
 
+LABELS = ['table:authors', 'table:publications', 'table:citations', 'table:h-index',
+          'table:rank-authors', 'table:authors-2', 'tab:my_label']
+
+
+def paper_tables(path):
+    """{label: {row: [cells]}} from the .tex or from a tables.json written by --dump."""
+    if str(path).endswith('.json'):
+        return json.load(open(path, encoding='utf-8'))
+    tex = open(path, encoding='utf-8').read()
+    return {label: tex_table(tex, label) for label in LABELS}
+
+
 def num(s):
     s = s.replace('$', '').replace(',', '').strip()
     if s in ('-', '---', ''):
@@ -36,13 +53,13 @@ def num(s):
 
 
 def main(tex_path, res_path, out_path):
-    tex = open(tex_path).read()
+    printed = paper_tables(tex_path)
     res = json.load(open(res_path))
     cc = res['countries']
     tables = []
 
     def add(key, title, label, cols, ours, digits):
-        paper = tex_table(tex, label)
+        paper = printed[label]
         rows = []
         for c in LA:
             p = [num(x) for x in paper[c]]
@@ -71,7 +88,7 @@ def main(tex_path, res_path, out_path):
         lambda c: [res['ranks_papers'][c][k] for k in RANKS], [0] * 9)
 
     # gender by rank (Table 7)
-    gpaper = tex_table(tex, 'tab:my_label')
+    gpaper = printed['tab:my_label']
     grows = []
     for name, ours in res['gender_by_rank'].items():
         p = [num(x) for x in gpaper[name]]
@@ -113,4 +130,8 @@ def main(tex_path, res_path, out_path):
 
 
 if __name__ == '__main__':
-    main(*sys.argv[1:4])
+    if sys.argv[1] == '--dump':
+        with open(sys.argv[3], 'w', encoding='utf-8') as f:
+            json.dump(paper_tables(sys.argv[2]), f, ensure_ascii=False, indent=1)
+    else:
+        main(*sys.argv[1:4])

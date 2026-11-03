@@ -31,6 +31,7 @@ python reproduce/standalone.py dash/ reproduce/dashboard_2026.html --edits repro
 | `compare.py` | `page_data.json`: each table cell of Tables 5, 6, 7, 10, 11 and 12 with status exact, rounded, truncated or differs; prints matches per table |
 | `export_dashboard.py` | the eight dataset files of the dashboard |
 | `standalone.py` | `dashboard.html` / `dashboard_2026.html`: the whole dashboard in one self-contained file (page, data and d3 inlined; opens offline); `--edits` adapts the wording |
+| `pages_index.py` | the GitHub Pages index of every board (`add`, `render`) |
 | `store_docs.py` | the dashboard's store documents, from `dashboard/blobs.json` (uploaded blob ids) |
 
 [`dashboard.html`](dashboard.html) is the dashboard as one file: download it and open it in a browser.
@@ -52,3 +53,22 @@ python reproduce/standalone.py dash/ reproduce/dashboard_2026.html --edits repro
 
 Not recomputed: Tables 3–4 (INSPIRE web queries, read from
 `INSPIREHEP_new_nbs/world_papers.csv`), the OpenAlex section and the rank-mobility figures.
+
+## Automatic updates and GitHub Pages
+
+Publishing a release whose tag starts with `v` (v2.0.0, …) runs the workflow
+[`update-data.yml`](../.github/workflows/update-data.yml) (about an hour):
+
+1. it downloads the data again from INSPIRE-HEP (`build/build_inspire_LA.py`);
+2. it recomputes the paper's tables with `--year` set to the current year and compares them with the
+   printed values, read from [`paper/tables.json`](paper/tables.json) (extracted from the manuscript with
+   `compare.py --dump`, so the workflow doesn't need it);
+3. it makes the board (`standalone.py --edits dashboard/edits_update.json --set YEAR=… --set DATE=…`);
+4. it attaches `inspire_LA.json.gz` and the board to the release, opens a pull request that puts them
+   on `main`, and adds the board to GitHub Pages.
+
+The Pages site, branch `gh-pages`, keeps every board in `boards/<date>/` and lists them in its
+`index.html` (`pages_index.py`), the paper's board included: <https://restrepo.github.io/inspireauth/>.
+The workflow can also run by hand (Actions → Update data and boards → Run workflow, with *publish*
+off for a dry run); pull requests that change `build/` or `reproduce/` run it on two small countries
+without publishing anything.

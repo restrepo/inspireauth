@@ -121,11 +121,11 @@ def main(data_path, out_path, gender_source='offline', year=None):
             'active_authors_any_record': active,
             'authors_pmi': n_auth / pop, 'active_pmi': active_nb / pop,
             'papers': len(papers), 'papers_pmi': len(papers) / pop,
-            'papers_per_author': len(papers) / n_auth,
+            'papers_per_author': len(papers) / n_auth if n_auth else 0,
             'citations': sum(cits), 'citations_pmi': sum(cits) / pop,
-            'citations_per_author': sum(cits) / n_auth,
+            'citations_per_author': sum(cits) / n_auth if n_auth else 0,
             'h_index': h_index(cits), 'h_pmi': h_index(cits) / pop,
-            'h_per_author': h_index(cits) / n_auth,
+            'h_per_author': h_index(cits) / n_auth if n_auth else 0,
             'papers_per_year': {y: years[y] for y in sorted(years) if y < CURRENT_YEAR},
         }
     out['countries'] = per_country
