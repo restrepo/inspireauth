@@ -8,9 +8,11 @@ The counting rules follow the notebooks in INSPIREHEP_new_nbs/:
 - genders come from genderize-offline (pip install genderize-offline), or with
   --genderize-io from the genderize.io fields stored in the dataset.
 
-Usage: python reproduce/reproduce.py [data/inspire_LA.json] [results.json] [--genderize-io]
+Usage: python reproduce/reproduce.py [data/inspire_LA.json.gz] [results.json] [--genderize-io]
+(a plain .json, such as the paper's version, works too)
 """
 import csv
+import gzip
 import json
 import math
 import sys
@@ -78,7 +80,9 @@ def linfit(xs, ys):
 
 
 def main(data_path, out_path, gender_source='offline'):
-    records = json.load(open(data_path))
+    opener = gzip.open if str(data_path).endswith('.gz') else open
+    with opener(data_path, 'rt', encoding='utf-8') as f:
+        records = json.load(f)
     out = {'source': str(data_path), 'gender_source': gender_source, 'n_records': len(records),
            'n_authors': len({r['author_id'] for r in records}),
            'n_papers': len({p['recid'] for r in records for p in r.get('papers') or []})}
@@ -233,6 +237,6 @@ def main(data_path, out_path, gender_source='offline'):
 
 if __name__ == '__main__':
     args = [a for a in sys.argv[1:] if a != '--genderize-io']
-    data = args[0] if args else ROOT / 'data/inspire_LA.json'
+    data = args[0] if args else ROOT / 'data/inspire_LA.json.gz'
     res = args[1] if len(args) > 1 else HERE / 'results.json'
     main(data, res, 'genderize.io' if '--genderize-io' in sys.argv else 'offline')

@@ -2,13 +2,13 @@
 
 These scripts recompute the tables and figures of the JDIS manuscript
 ("High-energy physics in Latin America", `jdis-version.tex`) from
-`data/inspire_LA.json` and compare them cell by cell with the printed values.
+`data/inspire_LA.json.gz` and compare them cell by cell with the printed values.
 They use the Python standard library and genderize-offline.
 
 ```bash
-git lfs pull --include data/inspire_LA.json   # the repo stores a pointer
+# the paper's data: git show v1.0.1:data/inspire_LA.json (Git LFS) or Zenodo; the current file is a later rebuild
 pip install -r reproduce/requirements.txt      # genderize-offline, from PyPI
-python reproduce/reproduce.py data/inspire_LA.json results.json
+python reproduce/reproduce.py data/inspire_LA.json.gz results.json
 python reproduce/compare.py ../jdis-version.tex results.json page_data.json
 python reproduce/export_dashboard.py page_data.json dash/
 python reproduce/standalone.py dash/ reproduce/dashboard.html
