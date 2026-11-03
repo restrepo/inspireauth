@@ -7,7 +7,9 @@ file opens in any browser with no network.
 Usage: python reproduce/standalone.py dash/ dashboard.html [--edits dashboard/edits_2026.json]
 
 --edits: a JSON list of [old, new] text replacements applied to the finished page,
-each of which must occur exactly once (used for the board of the 2026 data).
+each of which must occur exactly once (used for the boards of updated data).
+--set KEY=VALUE (repeatable) fills @@KEY@@ in the edits, as in dashboard/edits_update.json:
+  --set YEAR=2027 --set DATE=2027-02-01 --set ACTIVE_FROM=2022 --set MORE_YEARS=5
 """
 import html
 import json
@@ -113,7 +115,7 @@ def script_json(obj):
     return json.dumps(obj, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 
 
-def main(dash_dir, out_path, edits=None):
+def main(dash_dir, out_path, edits=None, values=None):
     page = (HERE / 'dashboard/index.html').read_text(encoding='utf-8')
     page = page.replace('<meta name="dash-one-writer">\n', '')
     data = {k: json.load(open(Path(dash_dir) / f'{k}.json', encoding='utf-8')) for k in DATASETS}
@@ -156,7 +158,12 @@ document.querySelectorAll('[data-sa-download]').forEach((a) => a.addEventListene
 </body>
 </html>
 """
-    for old, new in json.load(open(edits, encoding='utf-8')) if edits else []:
+    pairs = json.load(open(edits, encoding='utf-8')) if edits else []
+    for key, value in (values or {}).items():
+        pairs = [[o, n.replace(f'@@{key}@@', value)] for o, n in pairs]
+    for old, new in pairs:
+        if '@@' in new:
+            raise SystemExit(f'unfilled placeholder in edit: {new[:80]}')
         if doc.count(old) != 1:
             raise SystemExit(f'edit must match exactly once ({doc.count(old)} matches): {old[:60]}')
         doc = doc.replace(old, new)
@@ -171,4 +178,10 @@ if __name__ == '__main__':
         i = argv.index('--edits')
         edits = argv[i + 1]
         del argv[i:i + 2]
-    main(*argv[:2], edits)
+    values = {}
+    while '--set' in argv:
+        i = argv.index('--set')
+        k, v = argv[i + 1].split('=', 1)
+        values[k] = v
+        del argv[i:i + 2]
+    main(*argv[:2], edits, values)
