@@ -71,6 +71,8 @@ def main(page_data, outdir):
     dump('collab', collab)
     dump('mobility', d['mobility'])
     dump('phd_destination', d['phd_destination'])
+    dump('advisor_generations', d['advisor_generations'])
+    dump('advisor_families', d['advisor_families'])
     dump('gender_year', [{'year': int(y), 'authors': v['n'], 'female_pct': round(v['female_pct'], 2),
                           'ci95': round(v['ci95'], 2)} for y, v in d['gender_by_year'].items()])
     dump('gender_rank', [{'group': g['group'], 'paper_n': g['paper_n'], 'ours_n': g['n'],

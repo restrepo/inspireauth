@@ -248,6 +248,68 @@ def main(data_path, out_path, gender_source='offline', year=None):
                               for c, v in sorted(dest.items(), key=lambda kv: -sum(kv[1].values()))
                               for g in DESTINATIONS if v[g]]
 
+    # Not in the paper: generations of PhD advisors. A PhD advisor entry of a profile points to its
+    # advisor (record.$ref, else INSPIRE ID); links to profiles outside the dataset are dropped. An
+    # advisor's generations are 1 with students only, 2 with grand-students, and so on; a parent
+    # advisor has no registered PhD advisor. An advisor counts in every Latin American country of
+    # their records.
+    first = {}
+    for r in records:
+        first.setdefault(r['author_id'], r)
+    la_of = defaultdict(set)
+    for r in records:
+        if r.get('country') in LA:
+            la_of[r['author_id']].add(r['country'])
+    ref = {}
+    for a, r in first.items():
+        for i in r.get('ids') or []:
+            if i.get('schema') == 'INSPIRE ID':
+                ref[i['value']] = a
+        if r.get('profile_id'):
+            ref[str(r['profile_id'])] = a
+    students, with_advisor = defaultdict(set), set()
+    for a, r in first.items():
+        for ad in r.get('advisors') or []:
+            if ad.get('degree_type') != 'phd':
+                continue
+            with_advisor.add(a)
+            keys = [(ad.get('record') or {}).get('$ref', '').rsplit('/', 1)[-1],
+                    *(i['value'] for i in ad.get('ids') or [] if i.get('schema') == 'INSPIRE ID')]
+            t = next((ref[k] for k in keys if k in ref), None)
+            if t and t != a:
+                students[t].add(a)
+    gens, below = {}, {}
+    def generations(a, path=frozenset()):
+        if a not in gens:
+            kids = [k for k in students.get(a, ()) if k not in path]
+            gens[a] = 1 + max((generations(k, path | {a}) for k in kids), default=0) if kids else 0
+        return gens[a]
+    for a in students:
+        generations(a)
+        seen, todo = set(), [a]
+        while todo:
+            for k in students.get(todo.pop(), ()):
+                if k not in seen and k != a:
+                    seen.add(k)
+                    todo.append(k)
+        below[a] = len(seen)
+    tree = defaultdict(Counter)
+    for a in students:
+        for c in [*sorted(la_of[a]), 'All Latin America'] if la_of[a] else []:
+            tree[c]['parent', gens[a]] += a not in with_advisor
+            tree[c]['all', gens[a]] += 1
+    out['advisor_generations'] = [
+        {'country': c, 'generations': g, 'parents': v['parent', g], 'advisors': v['all', g]}
+        for c, v in sorted(tree.items(), key=lambda kv: -sum(n for (k, _), n in kv[1].items() if k == 'all'))
+        for g in sorted({g for _, g in v}) if v['all', g]]
+    fam = []
+    for c in [*LA, 'All Latin America']:
+        ps = [a for a in students if a not in with_advisor and la_of[a] and (c in la_of[a] or c == 'All Latin America')]
+        for a in sorted(ps, key=lambda a: (-gens[a], -below[a], a))[:10]:
+            fam.append({'country': c, 'author_id': a, 'profile_id': first[a].get('profile_id'), 'name': (first[a].get('name') or {}).get('value') or first[a]['full_name'],
+                        'generations': gens[a], 'descendants': below[a]})
+    out['advisor_families'] = fam
+
     # gender: unique authors per year with probability >= 0.9, inferred offline with
     # genderize-offline (WGND 2.0) from the first record of each author, or the
     # genderize.io fields stored in the dataset

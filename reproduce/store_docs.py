@@ -38,6 +38,13 @@ DATASETS = {
     'phd_destination': ('Where Latin American PhDs go',
                         'Not in the paper: current or latest later position of the authors who held a PhD '
                         'position in a Latin American country.'),
+    'advisor_generations': ('Generations of PhD advisors',
+                            'Not in the paper: advisors of each country by the number of generations of PhD '
+                            'students below them (students, grand-students, ...), all advisors and parent '
+                            'advisors (those with no registered PhD advisor).'),
+    'advisor_families': ('Largest academic families',
+                         'Not in the paper: the parent advisors of each country with the most generations '
+                         'and descendants in the dataset.'),
     'gender_rank': ('Female fraction by rank',
                     'Table 8 of the paper (genderize.io) beside the recomputed counts and female fractions '
                     '(offline genders, World Gender Name Dictionary 2.0).'),

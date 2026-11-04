@@ -70,6 +70,7 @@
     <button class="tab" role="tab" data-tab="correlations" aria-selected="false">Correlations</button>
     <button class="tab" role="tab" data-tab="trends" aria-selected="false">Regional trends</button>
     <button class="tab" role="tab" data-tab="mobility" aria-selected="false">Ranks &amp; mobility</button>
+    <button class="tab" role="tab" data-tab="advisors" aria-selected="false">PhD advisors</button>
     <button class="tab" role="tab" data-tab="collaborations" aria-selected="false">Collaborations</button>
     <button class="tab" role="tab" data-tab="gender" aria-selected="false">Gender</button>
     <button class="tab" role="tab" data-tab="method" aria-selected="false">Method</button>
@@ -167,6 +168,26 @@
     </div>
   </section>
 
+  <section id="advisors" role="tabpanel" hidden>
+    <div class="card" id="advisor-generations">
+      <h2>Generations of PhD advisors <span class="new">Not in the paper</span></h2>
+      <p class="note">The PhD advisors registered in the INSPIRE-HEP profiles form family trees. An advisor has 1 generation below them with PhD students only, 2 with grand-students, and so on. A parent advisor has no registered PhD advisor of their own. Only links between profiles of the dataset count, and an advisor counts in every Latin American country of their records.</p>
+      <p class="finding" data-draw="gen-finding" data-source="advisor_generations">—</p>
+      <div class="controls"><label for="rp-gen-mode">Count</label><select id="rp-gen-mode" data-draw="gen-mode" data-source="advisor_generations"><option value="parents">Parent advisors</option><option value="advisors">All advisors</option></select></div>
+      <div class="legend"><span><i class="sq" data-i="0"></i>1 generation</span><span><i class="sq" data-i="1"></i>2 generations</span><span><i class="sq" data-i="2"></i>3 generations</span><span><i class="sq" data-i="3"></i>4 or more</span></div>
+      <div class="chart" data-draw="gen-overview" data-source="advisor_generations"></div>
+    </div>
+    <div class="card" id="advisor-country">
+      <h2>Advisors of one country by generations <span class="new">Not in the paper</span></h2>
+      <p class="note">Parent advisors and all advisors of the chosen country by the number of generations below them, and the parent advisors with the largest families: generations, then descendants in the dataset.</p>
+      <div class="controls"><label for="rp-gen-country">Country</label><select id="rp-gen-country" data-draw="gen-select" data-source="advisor_generations"></select></div>
+      <div class="legend"><span><i class="sq" data-i="0"></i>Parent advisors</span><span><i class="sq muted"></i>All advisors</span></div>
+      <div class="chart" data-draw="gen-country" data-source="advisor_generations"></div>
+      <table><thead><tr><th>Parent advisor</th><th>Generations</th><th>Descendants</th></tr></thead>
+        <tbody data-draw="gen-families" data-source="advisor_families"></tbody></table>
+    </div>
+  </section>
+
   <section id="collaborations" role="tabpanel" hidden>
     <div class="card" id="collab-la">
       <h2>Collaborations between Latin American countries</h2>
@@ -211,6 +232,7 @@
           <li>Per million inhabitants uses the UN populations of Table 1.</li>
           <li>Collaboration: share of the row country's papers that also belong to the column country.</li>
           <li>Ranks and mobility: as in <code>students.ipynb</code>, authors with a declared rank in a country and the distinct institution, rank and period of the ranked papers they published.</li>
+          <li>PhD advisors (not in the paper): the advisors with degree <code>phd</code> of each profile, linked by INSPIRE record or INSPIRE ID to profiles of the dataset; generations are the longest chain of students below an advisor, and parent advisors have no registered PhD advisor.</li>
           <li>Gender: inferred offline from the first given name and the country of the author's first record, with the genderize-offline 0.1.0 package (PyPI), built on the World Gender Name Dictionary 2.0 (WGND, CC0), in place of genderize.io; known at probability 0.9 or more. Where both give a gender they agree for 99.6% of authors.</li>
         </ul>
       </div>
@@ -232,7 +254,7 @@ const rp = window.rp = {
   int: d3.format(','),
   num: (v) => v == null || v === '' ? '—' : Number.isInteger(+v) ? d3.format(',')(+v) : d3.format(',.2~f')(+v),
   r2: d3.format('.3f'),
-  ui: { table: null, q: '', only: false, country: 'All Latin America', mobCountry: 'Colombia' },
+  ui: { table: null, q: '', only: false, country: 'All Latin America', mobCountry: 'Colombia', genMode: 'parents', genCountry: 'All Latin America' },
   statusWord: { exact: ['Same', 'ok'], rounded: ['Rounded', 'ok'], truncated: ['Truncated in paper', 'warn'], differs: ['Differs', 'bad'] },
 };
 rp.ready = (el, ids) => {
@@ -611,6 +633,113 @@ dash.draw('phd-chart', (el) => {
     const r = d3.least(rows, (q) => Math.abs(y(q.country) + y.bandwidth() / 2 - py)); if (!r) return;
     tip.show([`${r.country} · ${rp.int(r.total)} PhDs`, ...rp.destinations.map((g) => `${g}: ${d3.format('.0f')(r[g])}%`)], x(100) - 160, y(r.country));
   }).on('pointerleave', () => tip.hide());
+});
+
+rp.genKeys = [1, 2, 3, 4];
+rp.genName = (g) => g >= 4 ? '4 or more generations' : g === 1 ? '1 generation' : `${g} generations`;
+rp.genModeName = { parents: 'parent advisors', advisors: 'advisors' };
+rp.genRows = (data, field) => {
+  const by = new Map();
+  for (const r of data) {
+    const o = by.get(r.country) || { country: r.country, 1: 0, 2: 0, 3: 0, 4: 0 };
+    o[Math.min(4, +r.generations)] += +r[field];
+    by.set(r.country, o);
+  }
+  for (const o of by.values()) o.total = d3.sum(rp.genKeys, (g) => o[g]);
+  return [...by.values()];
+};
+
+dash.draw('gen-mode', (sel) => {
+  sel.value = rp.ui.genMode;
+  sel.onchange = () => { rp.ui.genMode = sel.value; dash.draw('gen-overview'); };
+});
+
+dash.draw('gen-finding', (el) => {
+  const d = dash.data('advisor_generations'); if (d.status !== 'ok') { el.textContent = '—'; return; }
+  const all = rp.genRows(d.data, 'parents').find((r) => r.country === 'All Latin America');
+  if (!all || !all.total) { el.textContent = '—'; return; }
+  const deep = rp.genRows(d.data, 'parents').filter((r) => r.country !== 'All Latin America' && r[3] + r[4] > 0)
+    .sort((a, b) => (b[3] + b[4]) - (a[3] + a[4])).map((r) => r.country);
+  const b = (t) => { const e = document.createElement('b'); e.textContent = t; return e; };
+  el.replaceChildren(`Latin America has `, b(rp.int(all.total)), ` parent advisors with PhD students in the dataset. `,
+    b(`${d3.format('.0f')(100 * all[1] / all.total)}%`), ` of them have only one generation below them, and `,
+    b(rp.int(all[3] + all[4])), ` have three or more`, deep.length ? `, in ${deep.length > 1 ? `${deep.slice(0, -1).join(', ')} and ${deep.at(-1)}` : deep[0]}.` : '.');
+});
+
+dash.draw('gen-overview', (el) => {
+  if (!rp.ready(el, ['advisor_generations'])) return;
+  const rows = rp.genRows(dash.data('advisor_generations').data, rp.ui.genMode)
+    .filter((r) => r.country !== 'All Latin America' && r.total > 0).sort((a, b) => b.total - a.total);
+  el.replaceChildren();
+  const W = Math.max(300, el.clientWidth), rh = 26, mt = 4, mb = 24, H = mt + rows.length * rh + mb;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const ml = rp.textW(svg, rows.map((r) => r.country)) + 12;
+  const x = d3.scaleLinear([0, d3.max(rows, (r) => r.total) || 1], [ml, W - 40]).nice();
+  const y = d3.scaleBand(rows.map((r) => r.country), [mt, H - mb]).padding(0.25);
+  svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).ticks(5).tickFormat(d3.format(',')))
+    .attr('font-size', null).attr('font-family', null);
+  svg.append('g').selectAll('text').data(rows).join('text').attr('x', ml - 8).attr('y', (r) => y(r.country) + y.bandwidth() / 2)
+    .attr('dy', '0.32em').attr('text-anchor', 'end').text((r) => r.country);
+  const stacked = d3.stack().keys(rp.genKeys)(rows);
+  svg.append('g').selectAll('g').data(stacked).join('g').attr('fill', (s) => dash.colors[s.key - 1])
+    .selectAll('rect').data((s) => s).join('rect')
+    .attr('x', (s) => x(s[0])).attr('width', (s) => Math.max(0, x(s[1]) - x(s[0]) - (s[1] > s[0] ? 1 : 0))).attr('y', (s) => y(s.data.country)).attr('height', y.bandwidth());
+  svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.total) + 4).attr('y', (r) => y(r.country) + y.bandwidth() / 2)
+    .attr('dy', '0.32em').text((r) => rp.int(r.total));
+  const tip = rp.tip(el);
+  svg.on('pointermove', (ev) => {
+    const [, py] = d3.pointer(ev, el);
+    const r = d3.least(rows, (q) => Math.abs(y(q.country) + y.bandwidth() / 2 - py)); if (!r) return;
+    tip.show([`${r.country} · ${rp.int(r.total)} ${rp.genModeName[rp.ui.genMode]}`, ...rp.genKeys.map((g) => `${rp.genName(g)}: ${rp.int(r[g])}`)], ml + 8, y(r.country) + y.bandwidth());
+  }).on('pointerleave', () => tip.hide());
+});
+
+dash.draw('gen-select', (sel) => {
+  const d = dash.data('advisor_generations');
+  const cs = d.status === 'ok' ? [...new Set(d.data.map((r) => r.country))] : [];
+  sel.replaceChildren(...cs.map((c) => new Option(c, c)));
+  if (!cs.includes(rp.ui.genCountry)) rp.ui.genCountry = cs[0] || null;
+  sel.value = rp.ui.genCountry || '';
+  sel.onchange = () => { rp.ui.genCountry = sel.value; dash.draw('gen-country'); dash.draw('gen-families'); };
+});
+
+dash.draw('gen-country', (el) => {
+  if (!rp.ready(el, ['advisor_generations'])) return;
+  const data = dash.data('advisor_generations').data.filter((r) => r.country === rp.ui.genCountry);
+  const gs = d3.range(1, (d3.max(data, (r) => +r.generations) || 1) + 1);
+  const val = (g, f) => { const r = data.find((q) => +q.generations === g); return r ? +r[f] : 0; };
+  el.replaceChildren();
+  const W = Math.max(300, el.clientWidth), H = 280, mb = 24;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`);
+  const y = d3.scaleLinear([0, d3.max(gs, (g) => val(g, 'advisors')) || 1], [H - mb, 16]).nice();
+  const ml = rp.textW(svg, y.ticks(5).map(d3.format(','))) + 10;
+  const x = d3.scaleBand(gs, [ml + 4, W - 6]).padding(0.3);
+  const x2 = d3.scaleBand(['parents', 'advisors'], [0, x.bandwidth()]).padding(0.08);
+  svg.append('g').attr('transform', `translate(${ml},0)`).call(d3.axisLeft(y).ticks(5).tickSize(-(W - ml - 8)).tickFormat(d3.format(',')))
+    .attr('font-size', null).attr('font-family', null).call((g) => g.select('.domain').remove());
+  svg.append('g').attr('transform', `translate(0,${H - mb})`).call(d3.axisBottom(x).tickFormat((g) => g === 1 ? '1 generation' : `${g} generations`))
+    .attr('font-size', null).attr('font-family', null);
+  const bars = gs.flatMap((g) => ['parents', 'advisors'].map((f) => ({ g, f, v: val(g, f) })));
+  svg.append('g').selectAll('rect').data(bars).join('rect')
+    .attr('x', (b) => x(b.g) + x2(b.f)).attr('width', x2.bandwidth()).attr('y', (b) => y(b.v)).attr('height', (b) => Math.max(0, y(0) - y(b.v)))
+    .attr('fill', (b) => b.f === 'parents' ? dash.colors[0] : 'var(--cds-chart-muted)');
+  svg.append('g').selectAll('text').data(bars).join('text').attr('x', (b) => x(b.g) + x2(b.f) + x2.bandwidth() / 2).attr('y', (b) => y(b.v) - 4)
+    .attr('text-anchor', 'middle').text((b) => rp.int(b.v));
+});
+
+dash.draw('gen-families', (tb) => {
+  const d = dash.data('advisor_families');
+  tb.replaceChildren();
+  if (d.status !== 'ok') return;
+  for (const r of d.data.filter((q) => q.country === rp.ui.genCountry)) {
+    const tr = tb.insertRow();
+    const a = document.createElement('a');
+    a.href = r.profile_id ? `https://inspirehep.net/authors/${encodeURIComponent(r.profile_id)}` : `https://inspirehep.net/authors?q=${encodeURIComponent('ids.value:' + r.author_id)}`;
+    a.textContent = r.name; a.target = '_blank'; a.rel = 'noopener';
+    tr.insertCell().append(a);
+    tr.insertCell().textContent = rp.int(r.generations);
+    tr.insertCell().textContent = rp.int(r.descendants);
+  }
 });
 
 dash.draw('heatmap', (el) => {
