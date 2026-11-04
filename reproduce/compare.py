@@ -102,6 +102,7 @@ def main(tex_path, res_path, out_path):
     out = {k: res[k] for k in ['n_records', 'n_authors', 'n_papers', 'la_total_papers',
                                 'gender_known', 'authors_with_rank', 'collab_la', 'collab_world',
                                 'world', 'gender_by_year', 'correlations', 'mobility', 'phd_destination',
+                                'advisor_generations', 'advisor_families',
                                 'la_papers_per_year']}
     out.update({'LA': LA, 'WORLD': WORLD, 'tables': tables, 'gender_rank': grows,
                 'r2_paper': r2_paper,
