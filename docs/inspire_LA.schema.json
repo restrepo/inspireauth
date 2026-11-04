@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/restrepo/inspireauth/blob/main/docs/inspire_LA.schema.json",
+  "title": "inspire_LA",
+  "description": "data/inspire_LA.json.gz of restrepo/inspireauth: INSPIRE-HEP author records for Latin America, one record per author and institution. Documented in docs/data-schema.md.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/record" },
+  "$defs": {
+    "nullableString": { "type": ["string", "null"] },
+    "year": {
+      "description": "A year as text, e.g. \"2019\". Publication years may also be \"None\" or \"0000\" when INSPIRE has no date.",
+      "type": "string"
+    },
+    "inspireRef": {
+      "type": "object",
+      "properties": { "$ref": { "type": "string", "format": "uri" } },
+      "required": ["$ref"]
+    },
+    "rank": {
+      "enum": ["UNDERGRADUATE", "MASTER", "PHD", "POSTDOC", "JUNIOR", "SENIOR", "STAFF", "VISITOR", "OTHER"]
+    },
+    "identifier": {
+      "type": "object",
+      "properties": {
+        "schema": { "type": "string", "description": "INSPIRE BAI, INSPIRE ID, ORCID, SPIRES, CERN, ARXIV, LINKEDIN, GOOGLESCHOLAR, ..." },
+        "value": { "type": "string" }
+      },
+      "required": ["schema", "value"]
+    },
+    "record": {
+      "type": "object",
+      "required": ["author_id", "full_name", "first_names", "name", "ids", "institution", "institution_id",
+                   "country", "gender", "gender_probability", "positions", "advisors", "papers", "email_addresses"],
+      "additionalProperties": false,
+      "properties": {
+        "author_id": { "type": "string", "description": "INSPIRE BAI of the author (e.g. D.Restrepo.1), or unknownNN for the few authors without one. Same for every record of an author." },
+        "profile_id": { "$ref": "#/$defs/nullableString", "description": "INSPIRE author record number: https://inspirehep.net/api/authors/<profile_id>; null or absent if the author has no profile (paper's version)." },
+        "full_name": { "type": "string", "description": "Name as written in the paper that created the record, \"Family, Given\"." },
+        "first_names": { "type": "string", "description": "Given names used for the gender inference, initials removed; empty if only initials are known." },
+        "name": {
+          "type": ["object", "null"],
+          "description": "Name block of the INSPIRE profile.",
+          "properties": {
+            "value": { "type": "string" },
+            "preferred_name": { "type": "string" },
+            "name_variants": { "type": "array", "items": { "type": "string" } },
+            "native_names": { "type": "array", "items": { "type": "string" } },
+            "previous_names": { "type": "array", "items": { "type": "string" } },
+            "numeration": { "type": "string" }
+          }
+        },
+        "ids": { "type": ["array", "null"], "items": { "$ref": "#/$defs/identifier" } },
+        "email_addresses": {
+          "type": ["array", "null"],
+          "description": "E-mails of the profile, {value, current, hidden}; null since the 2026 rebuild (the INSPIRE API no longer gives them).",
+          "items": { "type": "object" }
+        },
+        "institution": { "type": "string", "description": "INSPIRE short name of the institution of this record, e.g. Antioquia U." },
+        "institution_id": { "$ref": "#/$defs/nullableString", "description": "INSPIRE institution record number." },
+        "country": { "$ref": "#/$defs/nullableString", "description": "Country of the institution (first address in INSPIRE). Not necessarily Latin American." },
+        "gender": { "enum": ["male", "female", "unknown"] },
+        "gender_probability": { "type": "number", "minimum": 0, "maximum": 1, "description": "0.5-1, or 0 for unknown. Count a gender only at 0.9 or more." },
+        "positions": {
+          "type": ["array", "null"],
+          "description": "Positions of the INSPIRE profile; null if the author has none.",
+          "items": {
+            "type": "object",
+            "required": ["institution", "institution_id", "country", "author_id"],
+            "properties": {
+              "institution": { "type": "string" },
+              "institution_id": { "$ref": "#/$defs/nullableString" },
+              "record": { "$ref": "#/$defs/inspireRef" },
+              "country": { "$ref": "#/$defs/nullableString" },
+              "rank": { "$ref": "#/$defs/rank" },
+              "start_date": { "$ref": "#/$defs/year" },
+              "end_date": { "$ref": "#/$defs/year" },
+              "current": { "type": "boolean" },
+              "curated_relation": { "type": "boolean" },
+              "hidden": { "type": "boolean" },
+              "author_id": { "type": "string" }
+            }
+          }
+        },
+        "advisors": {
+          "type": "array",
+          "description": "Thesis advisors of the INSPIRE profile.",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "degree_type": { "enum": ["bachelor", "diploma", "laurea", "master", "phd", "habilitation", "other"] },
+              "ids": { "type": "array", "items": { "$ref": "#/$defs/identifier" } },
+              "record": { "$ref": "#/$defs/inspireRef" },
+              "curated_relation": { "type": "boolean" },
+              "hidden": { "type": "boolean" }
+            }
+          }
+        },
+        "papers": {
+          "type": "array",
+          "description": "The author's papers with at most 10 authors; the same list in every record of the author, one entry per affiliation of the author in the paper.",
+          "items": {
+            "type": "object",
+            "required": ["recid", "year", "citation_count", "journal_id", "primary_arxiv_category", "author_id", "institution_id"],
+            "properties": {
+              "recid": { "type": "integer", "description": "INSPIRE literature record number." },
+              "year": { "$ref": "#/$defs/year" },
+              "citation_count": { "type": ["integer", "null"] },
+              "journal_id": { "type": "string", "description": "INSPIRE journal record number, or \"None\"." },
+              "primary_arxiv_category": { "type": "array", "items": { "type": "string" } },
+              "author_id": { "$ref": "#/$defs/nullableString" },
+              "institution_id": { "$ref": "#/$defs/nullableString", "description": "Affiliation of the author in this paper." },
+              "rank": { "anyOf": [{ "$ref": "#/$defs/rank" }, { "type": "null" }], "description": "Rank of the position held at that institution in the paper's year." },
+              "institution": { "type": "string" },
+              "country": { "$ref": "#/$defs/nullableString" },
+              "start_date": { "$ref": "#/$defs/year" },
+              "end_date": { "$ref": "#/$defs/nullableString" },
+              "current": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

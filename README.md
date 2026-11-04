@@ -23,81 +23,18 @@ or `pandas.read_json('data/inspire_LA.json.gz')`; `gunzip -k data/inspire_LA.jso
 
 For each Latin American country, the institutions of that country were taken from INSPIRE-HEP, and for each institution its papers with at most 10 authors. Every author of those papers became a record. Authors are then extended with their INSPIRE profile (positions, advisors, e-mails, identifiers), each paper gets the rank and affiliation the author held when it was published ([students.ipynb](students.ipynb)), and gender is inferred from the first names and the country of the affiliation ([gender.ipynb](gender.ipynb), [gender-genderize.ipynb](gender-genderize.ipynb)). The construction code is in [INSPIREHEP.ipynb](INSPIREHEP.ipynb); [build/build_inspire_LA.py](build/build_inspire_LA.py) follows the same rules in one script (cached, batched requests; gender with [genderize-offline](https://pypi.org/project/genderize-offline/)) and built the current file: `python build/build_inspire_LA.py` (writes `data/inspire_LA.json.gz`; the same data give the same bytes). Publishing a release of this repository rebuilds it automatically and adds its board to <https://restrepo.github.io/inspireauth/> (see [reproduce/README.md](reproduce/README.md#automatic-updates-and-github-pages)).
 
-<img src="img/authors.svg" width=700>
+<img src="img/authors.svg" width=900 alt="Structure of an inspire_LA record">
 
 **There is one record per author and institution.** An author with several institutions in INSPIRE (current or past, in Latin America or elsewhere) appears once for each of them, and every one of those records carries the author's whole list of papers. Deduplicate by `author_id` to count authors, and by `papers[].recid` to count papers.
 
-### Record fields
+### Data schema
 
-| Field | Type | Description |
-|---|---|---|
-| `author_id` | string | INSPIRE BAI of the author, e.g. `D.Restrepo.1`. Unique per author. |
-| `profile_id` | string, null or absent | INSPIRE author record number (`https://inspirehep.net/api/authors/<profile_id>`); null or absent if the author has no profile. |
-| `full_name` | string | Name as written in the papers, `"Family, Given"`. |
-| `first_names` | string | Given names used for gender inference (initials removed); empty if only initials are known. |
-| `name` | object or null | Name block of the INSPIRE profile: `value`, `preferred_name`, `name_variants`, `native_names`, `previous_names`, `numeration`. |
-| `ids` | list or null | Identifiers from the profile, `{schema, value}` with schema such as `INSPIRE BAI`, `INSPIRE ID`, `ORCID`, `SPIRES`, `DESY`. |
-| `email_addresses` | list or null | `{value, current, hidden}`. Null since the 2026 rebuild: the INSPIRE API no longer gives e-mails publicly. |
-| `institution` | string | INSPIRE short name of the institution of this record, e.g. `Antioquia U.` |
-| `institution_id` | string | INSPIRE institution record number (`https://inspirehep.net/api/institutions/<institution_id>`). |
-| `country` | string | Country of `institution`. Not necessarily Latin American (see above). |
-| `gender` | string | `male`, `female` or `unknown`, inferred with [genderize-offline](https://pypi.org/project/genderize-offline/) (World Gender Name Dictionary 2.0) from `first_names` and the `country` of the author's first record (genderize.io before the 2026 rebuild). |
-| `gender_probability` | float | Probability of `gender` (0.5–1; 0 for `unknown`). The paper treats values below 0.9 as unknown, which leaves 23,564 authors with a gender (18,017 in the paper's version). |
-| `positions` | list or null | Positions from the INSPIRE profile (see below). |
-| `advisors` | list | Thesis advisors from the profile, `{name, degree_type, ids, record, curated_relation, hidden}`; `degree_type` is `phd`, `master` or `other`. |
-| `papers` | list | Papers of the author (see below). |
-
-### `positions[]`
-
-| Field | Description |
-|---|---|
-| `institution`, `institution_id`, `record.$ref` | Institution of the position. |
-| `country` | Country of that institution. |
-| `rank` | `UNDERGRADUATE`, `MASTER`, `PHD`, `POSTDOC`, `JUNIOR`, `SENIOR`, `STAFF`, `VISITOR`, `OTHER`, or absent. |
-| `start_date`, `end_date` | Years, as strings; may be absent. |
-| `current` | Whether it is the current position. |
-| `author_id` | Copy of the record's `author_id`. |
-| `curated_relation`, `hidden` | INSPIRE flags. |
-
-### `papers[]`
-
-| Field | Description |
-|---|---|
-| `recid` | INSPIRE literature record number (`https://inspirehep.net/api/literature/<recid>`). |
-| `year` | Publication year, as a string. |
-| `citation_count` | Citations in INSPIRE when the data were downloaded. |
-| `journal_id` | INSPIRE journal record number, or the string `"None"` if not published in a journal. |
-| `primary_arxiv_category` | List with the arXiv category, e.g. `["hep-ph"]`; empty if not on arXiv. |
-| `author_id` | The author's BAI in this paper. |
-| `institution_id` | Affiliation of the author in this paper. |
-| `institution`, `country`, `rank`, `start_date`, `end_date`, `current` | Present when the affiliation matches a position of the author's profile: the position (and its rank) the author held when the paper was published. |
-
-### Example record (abridged)
-
-```json
-{
-  "author_id": "D.Restrepo.1",
-  "profile_id": "991924",
-  "full_name": "Restrepo, Diego",
-  "first_names": "Diego Alejandro",
-  "institution": "Antioquia U.",
-  "institution_id": "903906",
-  "country": "Colombia",
-  "gender": "male",
-  "gender_probability": 0.99,
-  "ids": [{"schema": "ORCID", "value": "0000-0001-6455-5564"}],
-  "positions": [{"institution": "Antioquia U.", "institution_id": "903906", "country": "Colombia",
-                 "rank": "SENIOR", "start_date": "2004", "current": true}],
-  "advisors": [{"name": "Valle, Jose W.F.", "degree_type": "phd",
-                "ids": [{"schema": "INSPIRE ID", "value": "INSPIRE-00133260"}],
-                "record": {"$ref": "https://inspirehep.net/api/authors/985058"}}],
-  "papers": [{"recid": 926166, "year": "2012", "citation_count": 46,
-              "primary_arxiv_category": ["hep-ph"], "journal_id": "None",
-              "author_id": "D.Restrepo.1", "institution_id": "903906",
-              "institution": "Antioquia U.", "country": "Colombia", "rank": "SENIOR",
-              "start_date": "2004", "end_date": null, "current": true}]
-}
-```
+Every field of a record, with its type, how often it is present, where it comes from and the
+pitfalls (the string `"None"`, the shared paper lists), is documented in
+**[docs/data-schema.md](docs/data-schema.md)**. A JSON Schema is in
+[docs/inspire_LA.schema.json](docs/inspire_LA.schema.json); check a file with
+`python docs/validate_schema.py data/inspire_LA.json.gz`. Both the 2026 rebuild and the paper's version
+pass it. The diagram above is drawn by `docs/tools/draw_schema.py`.
 
 ## Other files
 
