@@ -24,10 +24,6 @@
   "<span class=\"note\">Ten or fewer authors, up to @@YEAR@@</span>"
  ],
  [
-  "Rows marked Differs are real disagreements; Rounded and Truncated come from how the paper prints numbers.",
-  "Here Differs means the @@YEAR@@ data give another number than the paper's 2022 data; Rounded and Truncated come from how the paper prints numbers."
- ],
- [
   "The recomputed counts use the offline genders and are a few percent below the paper's (genderize.io); the fractions agree within their margins.",
   "The recomputed counts use the @@YEAR@@ data and the offline genders; the paper's use the 2022 data and genderize.io."
  ],
