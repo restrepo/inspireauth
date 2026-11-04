@@ -251,15 +251,13 @@ def main(data_path, out_path, gender_source='offline', year=None):
     # Not in the paper: generations of PhD advisors. A PhD advisor entry of a profile points to its
     # advisor (record.$ref, else INSPIRE ID); links to profiles outside the dataset are dropped. An
     # advisor's generations are 1 with students only, 2 with grand-students, and so on; a parent
-    # advisor has no registered PhD advisor. An advisor counts in every Latin American country of
-    # their records.
+    # advisor has no registered PhD advisor. An advisor counts in every Latin American country where
+    # their profile has a position, of any rank; advisors with none are left out.
     first = {}
     for r in records:
         first.setdefault(r['author_id'], r)
-    la_of = defaultdict(set)
-    for r in records:
-        if r.get('country') in LA:
-            la_of[r['author_id']].add(r['country'])
+    la_of = {a: {p['country'] for p in r.get('positions') or [] if p.get('country') in LA}
+             for a, r in first.items()}
     ref = {}
     for a, r in first.items():
         for i in r.get('ids') or []:

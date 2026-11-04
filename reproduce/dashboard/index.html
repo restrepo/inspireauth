@@ -171,7 +171,7 @@
   <section id="advisors" role="tabpanel" hidden>
     <div class="card" id="advisor-generations">
       <h2>Generations of PhD advisors <span class="new">Not in the paper</span></h2>
-      <p class="note">The PhD advisors registered in the INSPIRE-HEP profiles form family trees. An advisor has 1 generation below them with PhD students only, 2 with grand-students, and so on. A parent advisor has no registered PhD advisor of their own. Only links between profiles of the dataset count, and an advisor counts in every Latin American country of their records.</p>
+      <p class="note">The PhD advisors registered in the INSPIRE-HEP profiles form family trees. An advisor has 1 generation below them with PhD students only, 2 with grand-students, and so on. A parent advisor has no registered PhD advisor of their own. Only links between profiles of the dataset count, and an advisor counts in every Latin American country where their INSPIRE profile has a position (of any rank, PhD included); advisors with no such position are left out.</p>
       <p class="finding" data-draw="gen-finding" data-source="advisor_generations">—</p>
       <div class="controls"><label for="rp-gen-mode">Count</label><select id="rp-gen-mode" data-draw="gen-mode" data-source="advisor_generations"><option value="parents">Parent advisors</option><option value="advisors">All advisors</option></select></div>
       <div class="legend"><span><i class="sq" data-i="0"></i>1 generation</span><span><i class="sq" data-i="1"></i>2 generations</span><span><i class="sq" data-i="2"></i>3 generations</span><span><i class="sq" data-i="3"></i>4 or more</span></div>
@@ -232,7 +232,7 @@
           <li>Per million inhabitants uses the UN populations of Table 1.</li>
           <li>Collaboration: share of the row country's papers that also belong to the column country.</li>
           <li>Ranks and mobility: as in <code>students.ipynb</code>, authors with a declared rank in a country and the distinct institution, rank and period of the ranked papers they published.</li>
-          <li>PhD advisors (not in the paper): the advisors with degree <code>phd</code> of each profile, linked by INSPIRE record or INSPIRE ID to profiles of the dataset; generations are the longest chain of students below an advisor, and parent advisors have no registered PhD advisor.</li>
+          <li>PhD advisors (not in the paper): the advisors with degree <code>phd</code> of each profile, linked by INSPIRE record or INSPIRE ID to profiles of the dataset; generations are the longest chain of students below an advisor, and parent advisors have no registered PhD advisor. An advisor counts in each Latin American country where their profile has a position.</li>
           <li>Gender: inferred offline from the first given name and the country of the author's first record, with the genderize-offline 0.1.0 package (PyPI), built on the World Gender Name Dictionary 2.0 (WGND, CC0), in place of genderize.io; known at probability 0.9 or more. Where both give a gender they agree for 99.6% of authors.</li>
         </ul>
       </div>
