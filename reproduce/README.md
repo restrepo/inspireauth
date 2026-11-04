@@ -29,7 +29,7 @@ python reproduce/standalone.py dash/ reproduce/dashboard_2026.html --edits repro
 |---|---|
 | `reproduce.py` | `results.json`: per-country authors, papers, citations, h-index, ranks, gender, collaborations, world share and R² |
 | `compare.py` | `page_data.json`: each table cell of Tables 5, 6, 7, 10, 11 and 12 with status exact, rounded, truncated or differs; prints matches per table |
-| `export_dashboard.py` | the eight dataset files of the dashboard |
+| `export_dashboard.py` | the ten dataset files of the dashboard |
 | `standalone.py` | `dashboard.html` / `dashboard_2026.html`: the whole dashboard in one self-contained file (page, data and d3 inlined; opens offline); `--edits` adapts the wording |
 | `pages_index.py` | the GitHub Pages index of every board (`add`, `render`) |
 | `store_docs.py` | the dashboard's store documents, from `dashboard/blobs.json` (uploaded blob ids) |

@@ -1,20 +1,46 @@
 [
- ["<title>HECAP Latin America Reproduction</title>", "<title>HECAP Latin America 2026</title>"],
- ["<h1 id=\"title\">HECAP Latin America, reproduced</h1>", "<h1 id=\"title\">HECAP Latin America, updated to 2026</h1>"],
- ["Recomputed from <code>data/inspire_LA.json</code> (inspireauth, Zenodo 10.5281/zenodo.23868569) and compared with the revised JDIS manuscript: ",
-  "The paper's tables and figures recomputed from the 2026 rebuild of the dataset (<code>data/inspire_LA.json.gz</code> of inspireauth, INSPIRE-HEP downloaded on 2026-11-03, papers up to 2026) and compared with the revised JDIS manuscript, whose data end in 2022. Differences are expected: they show how the numbers changed with four more years and with INSPIRE's later curation. "],
- ["table cells agree with the printed values, and", "table cells still equal the printed values, and"],
- ["R² values of the correlation figures.</p>", "R² values of the correlation figures. 2026 is a partial year.</p>"],
- ["<span class=\"note\">Ten or fewer authors, up to 2022</span>", "<span class=\"note\">Ten or fewer authors, up to 2026</span>"],
- ["Rows marked Differs are real disagreements; Rounded and Truncated come from how the paper prints numbers.",
-  "Here Differs means the 2026 data give another number than the paper's 2022 data; Rounded and Truncated come from how the paper prints numbers."],
- ["The recomputed counts use the offline genders and are a few percent below the paper's (genderize.io); the fractions agree within their margins.",
-  "The recomputed counts use the 2026 data and the offline genders; the paper's use the 2022 data and genderize.io."],
- ["an author is active with a paper from 2017 or later.", "an author is active with a paper from 2021 or later (2017 in the paper)."],
- ["Figs. 1 and 2: Latin American papers (counted once for the region) and their citations, as a percentage of all citable INSPIRE-HEP papers with ten or fewer authors published in the same year (Tables 3–4).",
-  "Figs. 1 and 2: Latin American papers (counted once for the region) and their citations, as a percentage of all citable INSPIRE-HEP papers with ten or fewer authors published in the same year (Tables 3–4, INSPIRE-HEP queries of February 2024 that end in 2021, so the shares stop there)."],
- ["<pre>pip install genderize-offline==0.1.0\npython reproduce/reproduce.py data/inspire_LA.json results.json\n",
-  "<pre>pip install genderize-offline==0.1.0\npython reproduce/reproduce.py data/inspire_LA.json.gz results.json --year 2026\n"],
- ["Recomputed by <code>reproduce/</code> of restrepo/inspireauth from <code>data/inspire_LA.json</code>,",
-  "Recomputed by <code>reproduce/</code> of restrepo/inspireauth from <code>data/inspire_LA.json.gz</code> (2026 rebuild, papers up to 2026, active authors from 2021),"]
+ [
+  "<title>HECAP Latin America Reproduction</title>",
+  "<title>HECAP Latin America 2026</title>"
+ ],
+ [
+  "<h1 id=\"title\">HECAP Latin America, reproduced</h1>",
+  "<h1 id=\"title\">HECAP Latin America, updated to 2026</h1>"
+ ],
+ [
+  "Recomputed from <code>data/inspire_LA.json</code> (inspireauth, Zenodo 10.5281/zenodo.23868569) and compared with the revised JDIS manuscript: ",
+  "The paper's tables and figures recomputed from the 2026 rebuild of the dataset (<code>data/inspire_LA.json.gz</code> of inspireauth, INSPIRE-HEP downloaded on 2026-11-03, papers up to 2026) and compared with the revised JDIS manuscript, whose data end in 2022. Differences are expected: they show how the numbers changed with four more years and with INSPIRE's later curation. "
+ ],
+ [
+  "table cells agree with the printed values, and",
+  "table cells still equal the printed values, and"
+ ],
+ [
+  "R² values of the correlation figures.</p>",
+  "R² values of the correlation figures. 2026 is a partial year.</p>"
+ ],
+ [
+  "<span class=\"note\">Ten or fewer authors, up to 2022</span>",
+  "<span class=\"note\">Ten or fewer authors, up to 2026</span>"
+ ],
+ [
+  "The recomputed counts use the offline genders and are a few percent below the paper's (genderize.io); the fractions agree within their margins.",
+  "The recomputed counts use the 2026 data and the offline genders; the paper's use the 2022 data and genderize.io."
+ ],
+ [
+  "an author is active with a paper from 2017 or later.",
+  "an author is active with a paper from 2021 or later (2017 in the paper)."
+ ],
+ [
+  "Figs. 1 and 2: Latin American papers (counted once for the region) and their citations, as a percentage of all citable INSPIRE-HEP papers with ten or fewer authors published in the same year (Tables 3–4).",
+  "Figs. 1 and 2: Latin American papers (counted once for the region) and their citations, as a percentage of all citable INSPIRE-HEP papers with ten or fewer authors published in the same year (Tables 3–4, INSPIRE-HEP queries of February 2024 that end in 2021, so the shares stop there)."
+ ],
+ [
+  "<pre>pip install genderize-offline==0.1.0\npython reproduce/reproduce.py data/inspire_LA.json results.json\n",
+  "<pre>pip install genderize-offline==0.1.0\npython reproduce/reproduce.py data/inspire_LA.json.gz results.json --year 2026\n"
+ ],
+ [
+  "Recomputed by <code>reproduce/</code> of restrepo/inspireauth from <code>data/inspire_LA.json</code>,",
+  "Recomputed by <code>reproduce/</code> of restrepo/inspireauth from <code>data/inspire_LA.json.gz</code> (2026 rebuild, papers up to 2026, active authors from 2021),"
+ ]
 ]

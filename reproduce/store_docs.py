@@ -23,7 +23,7 @@ DATASETS = {
                         'Per country: population, R&D and HDI from Table 1, and the recomputed authors, papers, '
                         'citations and h-index.'),
     'papers_per_year': ('Articles per year by country',
-                        'Recomputed number of articles of each country by publication year.'),
+                        'Recomputed number of articles of each country, and of Latin America as a whole, by publication year.'),
     'world_share': ('Latin America vs global output',
                     'Latin American papers and citations per year, recomputed, beside the global output of '
                     'Tables 3–4 (INSPIRE-HEP, February 2024).'),
@@ -32,6 +32,12 @@ DATASETS = {
     'gender_year': ('Female fraction per year',
                     'Recomputed female fraction of the authors who published each year, with its 95% margin; '
                     'genders inferred offline with the World Gender Name Dictionary 2.0.'),
+    'mobility': ('Ranks and where they published',
+                 'Figs. 4 and 37-39: authors with a declared rank in a country, by the rank and region under '
+                 'which they published (recomputed).'),
+    'phd_destination': ('Where Latin American PhDs go',
+                        'Not in the paper: current or latest later position of the authors who held a PhD '
+                        'position in a Latin American country.'),
     'gender_rank': ('Female fraction by rank',
                     'Table 8 of the paper (genderize.io) beside the recomputed counts and female fractions '
                     '(offline genders, World Gender Name Dictionary 2.0).'),

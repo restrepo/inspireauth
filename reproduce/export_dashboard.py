@@ -59,8 +59,9 @@ def main(page_data, outdir):
                         **{m: round(v, 3) for m, v in d['points'][k].items()}})
     dump('country_metrics', metrics)
 
-    dump('papers_per_year', [{'country': k, 'year': int(y), 'papers': n}
-                             for k in d['LA'] for y, n in d['per_year'][k].items()])
+    dump('papers_per_year', [{'country': 'All Latin America', 'year': int(y), 'papers': n}
+                             for y, n in d['la_papers_per_year'].items()]
+         + [{'country': k, 'year': int(y), 'papers': n} for k in d['LA'] for y, n in d['per_year'][k].items()])
     dump('world_share', [{k: r[k] for k in ['year', 'la_papers', 'world_papers', 'la_citations', 'world_citations']}
                          for r in d['world']])
     collab = [{'scope': 'Latin America', 'row': a, 'col': b, 'pct': d['collab_la'][i][j]}
@@ -68,6 +69,8 @@ def main(page_data, outdir):
     collab += [{'scope': 'World', 'row': a, 'col': b, 'pct': d['collab_world'][i][j]}
                for i, a in enumerate(d['LA']) for j, b in enumerate(d['WORLD'])]
     dump('collab', collab)
+    dump('mobility', d['mobility'])
+    dump('phd_destination', d['phd_destination'])
     dump('gender_year', [{'year': int(y), 'authors': v['n'], 'female_pct': round(v['female_pct'], 2),
                           'ci95': round(v['ci95'], 2)} for y, v in d['gender_by_year'].items()])
     dump('gender_rank', [{'group': g['group'], 'paper_n': g['paper_n'], 'ours_n': g['n'],

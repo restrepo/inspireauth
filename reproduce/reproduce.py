@@ -32,6 +32,9 @@ WORLD = ['Spain', 'Portugal', 'Germany', 'Italy', 'France', 'United Kingdom',
 RANKS = ['SENIOR', 'JUNIOR', 'STAFF', 'POSTDOC', 'PHD', 'MASTER',
          'UNDERGRADUATE', 'VISITOR', 'OTHER']
 CURRENT_YEAR = 2022
+MOBILITY_RANKS = ['UNDERGRADUATE', 'PHD', 'POSTDOC', 'JUNIOR', 'SENIOR']
+REGIONS = ['Same country', 'Other Latin American country', 'Outside Latin America']
+DESTINATIONS = [*REGIONS, 'Country not known', 'No later position']
 
 # Table 1 of the manuscript: population, R&D (% of GDP, average) and HDI (average)
 CONTEXT = {
@@ -155,6 +158,7 @@ def main(data_path, out_path, gender_source='offline', year=None):
                      'pct_citations': 100 * la_year_c[y] / int(world[y]['Citations'])}
                     for y in sorted(world) if 1946 <= y <= 2021]
     out['la_total_papers'] = len(la_all)
+    out['la_papers_per_year'] = {y: la_year_p[y] for y in sorted(la_year_p) if y < CURRENT_YEAR}
 
     # correlations with R&D (average % of GDP) and HDI
     corr = {}
@@ -181,6 +185,68 @@ def main(data_path, out_path, gender_source='offline', year=None):
     out['ranks_papers'] = {c: {k: len(v) for k, v in d.items()} for c, d in rank_pap.items()}
     out['authors_with_rank'] = len({r['author_id'] for r in records
                                     if any(p.get('rank') for p in r.get('positions') or [])})
+
+    # Figs. 4 and 37-39 (students.ipynb): authors with a declared rank in a country, and the
+    # ranks under which they published, in that country, elsewhere in Latin America or outside it.
+    # As in the notebook, publications count once per (institution, rank, start, end).
+    ranked_papers, seen = [], set()
+    for r in records:
+        for p in r.get('papers') or []:
+            if p.get('rank'):
+                k = tuple(str(p.get(f)) for f in ('recid', 'year', 'citation_count', 'journal_id', 'author_id',
+                                                  'institution_id', 'rank', 'start_date', 'end_date',
+                                                  'institution', 'country', 'current'))
+                if k not in seen:
+                    seen.add(k)
+                    ranked_papers.append(p)
+    with_rank = defaultdict(set)
+    for r in records:
+        for pos in r.get('positions') or []:
+            if pos.get('rank'):
+                with_rank[pos.get('country')].add(r['author_id'])
+    la_set = set(LA) | {'Nicaragua'}
+    mobility = []
+    for c in LA:
+        counts, keys = Counter(), set()
+        for p in ranked_papers:
+            if p['author_id'] not in with_rank[c] or p['rank'] not in MOBILITY_RANKS:
+                continue
+            k = (p.get('institution_id'), p['rank'], p.get('start_date'), p.get('end_date'))
+            if k in keys:
+                continue
+            keys.add(k)
+            region = ('Same country' if p.get('country') == c else
+                      'Other Latin American country' if p.get('country') in la_set else 'Outside Latin America')
+            counts[p['rank'], region] += 1
+        mobility += [{'country': c, 'rank': rk, 'region': g, 'n': counts[rk, g]}
+                     for rk in MOBILITY_RANKS for g in REGIONS if counts[rk, g]]
+    out['mobility'] = mobility
+
+    # Not in the paper: where the authors who held a PhD position in a Latin American country
+    # hold their current (else latest) later position, not counting student or visitor ranks.
+    profile = {}
+    for r in records:
+        if r.get('positions') and r['author_id'] not in profile:
+            profile[r['author_id']] = r['positions']
+    dest = defaultdict(Counter)
+    for ps in profile.values():
+        phd = [p for p in ps if p.get('rank') == 'PHD' and p.get('country') in la_set]
+        if not phd:
+            continue
+        c = phd[0]['country']
+        later = [p for p in ps if p is not phd[0] and p.get('rank') not in ('PHD', 'MASTER', 'UNDERGRADUATE', 'VISITOR')]
+        now = [p for p in later if p.get('current')] or sorted(later, key=lambda p: year_of({'year': str(p.get('start_date') or '')[:4]}) or 0)[-1:]
+        if not now:
+            g = 'No later position'
+        else:
+            cc = now[0].get('country')
+            g = ('Same country' if cc == c else 'Other Latin American country' if cc in la_set else
+                 'Outside Latin America' if cc else 'Country not known')
+        dest[c][g] += 1
+        dest['All Latin America'][g] += 1
+    out['phd_destination'] = [{'country': c, 'destination': g, 'authors': v[g], 'total': sum(v.values())}
+                              for c, v in sorted(dest.items(), key=lambda kv: -sum(kv[1].values()))
+                              for g in DESTINATIONS if v[g]]
 
     # gender: unique authors per year with probability >= 0.9, inferred offline with
     # genderize-offline (WGND 2.0) from the first record of each author, or the
