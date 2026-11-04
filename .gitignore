@@ -3,3 +3,7 @@
 
 # mac OS
 .DS_Store
+
+# outputs of reproduce/ and build/ runs, and the paper's data downloaded by hand
+out/
+data/inspire_LA_paper.json
